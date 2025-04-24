@@ -14,5 +14,19 @@ namespace TimeWarpGames.Dal
                 return lstAccessories;
             }
         }
+
+        public static bool Create(Accessory accessory)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                db.Accessories.Add(accessory);
+                int i = db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
     }
 }

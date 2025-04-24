@@ -15,7 +15,17 @@ namespace TimeWarpGames.Bll
             {
                 throw new Exception("Geen accessoires gevonden");
             }
+
             return lstAccessories;
         }
-}
+
+        public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
+            int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
+        {
+            Accessory accessory = new Accessory(Name, IsBoxed, Image, Description, Price, Stock, Brand, Platform,
+                Type, State);
+            bool accessoryCreated = AccessoryDal.Create(accessory);
+            return accessoryCreated;
+        }
+    }
 }

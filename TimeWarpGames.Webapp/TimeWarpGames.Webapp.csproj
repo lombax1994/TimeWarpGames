@@ -254,6 +254,7 @@
     <Content Include="Views\SelectProductType.cshtml" />
     <Content Include="Views\Consoles\Create.cshtml" />
     <Content Include="Views\Games\Create.cshtml" />
+    <Content Include="Views\Accessories\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

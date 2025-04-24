@@ -23,5 +23,28 @@ namespace TimeWarpGames.Webapp.Controllers
                 return View("Error");
             }
         }
+
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
+            int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
+        {
+            bool accessoryCreated = AccessoryBll.Create(Name, IsBoxed, Image, Description, Price, Stock, Brand,
+                Platform, Type, State);
+            if (accessoryCreated)
+            {
+                ViewBag.Feedback = Name + " is toegevoegd";
+            }
+            else
+            {
+                ViewBag.Feedback = "Accessoire toevoegen is mislukt";
+            }
+
+            return View();
+        }
     }
 }
