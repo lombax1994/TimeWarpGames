@@ -42,5 +42,11 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+    jQuery.validator.methods.number = function (value, element) {
+        value = value.replace(',', '.'); // Convert comma to dot before validation
+        return this.optional(element) || !isNaN(parseFloat(value)) && isFinite(value);
+    };
+    </script>
 </body>
 </html>
