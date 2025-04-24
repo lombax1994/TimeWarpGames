@@ -1,0 +1,35 @@
+﻿@model IEnumerable<TimeWarpGames.Entities.Accessory>
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<!-- Create Button (top right corner) -->
+<div class="text-right mb-3">
+	@Html.ActionLink("Accessoire toevoegen", "Create", null, new { @class = "btn btn-primary" })
+</div>
+
+<!-- Card Layout -->
+<div class="row">
+	@foreach (var item in Model)
+	{
+		<div class="col-lg-3 col-md-4 col-sm-6 mb-4"> <!-- 4 items per row on large screens, 3 on medium, 2 on small -->
+			<div class="card">
+				<img src="@item.Image" class="card-img-top" alt="Image for @item.Name">
+				<div class="card-body">
+					<h5 class="card-title">@item.Name</h5>
+					<p class="card-text">@item.Price.ToString("C")</p>
+                    
+					<!-- Meer info (Details) button -->
+					<a href="@Url.Action("Details", new { id = item.ProductId })" class="btn btn-info btn-block mb-2">Meer info</a>
+                    
+					<!-- Edit and Delete buttons side by side -->
+					<div class="d-flex justify-content-between">
+						<a href="@Url.Action("Edit", new { id = item.ProductId })" class="btn btn-warning btn-sm">Edit</a>
+						<a href="@Url.Action("Delete", new { id = item.ProductId })" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+</div>

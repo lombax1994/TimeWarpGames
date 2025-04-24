@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35506.116 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWarpGames.Webapp", "TimeWarpGames.Webapp\TimeWarpGames.Webapp.csproj", "{79563B22-7DFD-431C-ABFA-6253325729A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWarpGames.Entities", "TimeWarpGames.Entities\TimeWarpGames.Entities.csproj", "{0DD22223-EEBB-47CE-9D66-9B6AC75F441C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWarpGames.Dal", "TimeWarpGames.Dal\TimeWarpGames.Dal.csproj", "{00A2BE4E-E576-49AD-8F28-0191BA6CDAAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeWarpGames.Bll", "TimeWarpGames.Bll\TimeWarpGames.Bll.csproj", "{1289718C-4AE8-4B90-8C54-7F961739ACDD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{79563B22-7DFD-431C-ABFA-6253325729A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79563B22-7DFD-431C-ABFA-6253325729A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79563B22-7DFD-431C-ABFA-6253325729A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79563B22-7DFD-431C-ABFA-6253325729A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DD22223-EEBB-47CE-9D66-9B6AC75F441C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DD22223-EEBB-47CE-9D66-9B6AC75F441C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DD22223-EEBB-47CE-9D66-9B6AC75F441C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DD22223-EEBB-47CE-9D66-9B6AC75F441C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A2BE4E-E576-49AD-8F28-0191BA6CDAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A2BE4E-E576-49AD-8F28-0191BA6CDAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A2BE4E-E576-49AD-8F28-0191BA6CDAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A2BE4E-E576-49AD-8F28-0191BA6CDAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1289718C-4AE8-4B90-8C54-7F961739ACDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1289718C-4AE8-4B90-8C54-7F961739ACDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1289718C-4AE8-4B90-8C54-7F961739ACDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1289718C-4AE8-4B90-8C54-7F961739ACDD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

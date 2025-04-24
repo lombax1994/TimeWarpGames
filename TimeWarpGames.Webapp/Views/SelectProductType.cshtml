@@ -1,0 +1,23 @@
+﻿@{
+	ViewBag.Title = "Select Product Type";
+}
+
+<h2>Select Product Type</h2>
+
+<div class="form-horizontal">
+	<div class="form-group">
+		<div class="col-md-10 col-md-offset-2">
+			<a href="@Url.Action("CreateConsole", "Products")" class="btn btn-primary">Create Console</a>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-md-10 col-md-offset-2">
+			<a href="@Url.Action("CreateGame", "Products")" class="btn btn-primary">Create Game</a>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-md-10 col-md-offset-2">
+			<a href="@Url.Action("CreateAccessory", "Products")" class="btn btn-primary">Create Accessory</a>
+		</div>
+	</div>
+</div>

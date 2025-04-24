@@ -1,0 +1,254 @@
+﻿/* General Body Styling (Super Dark Mode) */
+body {
+    background-color: #0D0D0D !important; /* Darkest possible background */
+    color: #E1E1E1 !important; /* Light text color */
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+/* Navbar (Dark with Neon Effects) */
+.custom-navbar {
+    background-color: #121212 !important; /* Dark background for navbar */
+    border-bottom: 1px solid #444 !important; /* Dark border */
+}
+
+    .custom-navbar .navbar-nav .nav-link {
+        color: #E1E1E1 !important; /* Light gray text for links */
+        text-shadow: 0 0 5px #00D9FF; /* Soft neon blue glow effect */
+        transition: color 0.3s ease, text-shadow 0.3s ease; /* Smooth transition for hover effects */
+    }
+
+        .custom-navbar .navbar-nav .nav-link:hover {
+            color: #FF00FF !important; /* Neon pink text on hover */
+            background-color: #1A1A1A !important; /* Dark background on hover */
+            text-shadow: 0 0 10px #FF00FF !important; /* Bright neon pink glow effect */
+        }
+
+        .custom-navbar .navbar-nav .nav-link.active {
+            color: #FF00FF !important; /* Active link with neon pink color */
+            background-color: #121212 !important; /* Keep background dark on active */
+            text-shadow: 0 0 10px #FF00FF !important; /* Glowing effect for active link */
+        }
+
+/* Navbar Brand (Logo) */
+.custom-navbar-brand img {
+    height: 80px !important; /* Increased size of the logo */
+    width: auto !important; /* Scales logo proportionally */
+}
+
+/* Dropdown Menu (Dark Mode) */
+.custom-navbar .navbar-nav .nav-item.dropdown .dropdown-menu {
+    background-color: #2C2C2C !important; /* Dark background for dropdown */
+    border: 1px solid #444 !important;
+}
+
+.custom-navbar .navbar-nav .nav-item.dropdown .dropdown-item {
+    color: #E1E1E1 !important; /* Light text for dropdown items */
+}
+
+    .custom-navbar .navbar-nav .nav-item.dropdown .dropdown-item:hover {
+        color: #0D0D0D !important;
+        background-color: #FF00FF !important; /* Neon pink on hover */
+        text-shadow: 0 0 10px #FF00FF !important; /* Glowing pink effect */
+    }
+
+/* Content Area */
+.container.body-content {
+    background-color: #1A1A1A !important; /* Very dark background for content */
+    color: #E1E1E1 !important; /* Light text for content */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Footer Styling */
+footer {
+    background-color: #121212 !important; /* Dark footer background */
+    color: #A9A9A9 !important; /* Lighter text color */
+    padding: 15px 0;
+    text-align: center;
+}
+
+/* Cards (Dark with Neon Glow) */
+.card {
+    background-color: #1C1C1C !important; /* Dark background for cards */
+    border: 1px solid #444 !important; /* Dark border for cards */
+    box-shadow: 0 4px 6px rgba(0, 255, 247, 0.3) !important; /* Neon blue shadow */
+    color: #E1E1E1 !important;
+}
+
+    /* Hover Effect on Cards */
+    .card:hover {
+        background-color: #333 !important; /* Slightly lighter dark background */
+        box-shadow: 0 4px 12px rgba(0, 255, 247, 0.5) !important; /* Stronger neon blue glow on hover */
+        transform: scale(1.05); /* Slight scale-up effect */
+    }
+
+/* Button Styles (Neon) */
+.btn-primary {
+    background-color: #00FFF7 !important; /* Neon blue for primary button */
+    border-color: #00FFF7 !important;
+    color: #1D1F3F !important;
+}
+
+    .btn-primary:hover {
+        background-color: #B9FFFF !important; /* Light neon blue on hover */
+        border-color: #B9FFFF !important;
+    }
+
+.btn-secondary {
+    background-color: #523BFF !important; /* Neon purple */
+    border-color: #523BFF !important;
+    color: #FFFFFF !important;
+}
+
+.btn-cta {
+    background-color: #FF4EDB !important; /* Neon pink for CTA */
+    border-color: #FF4EDB !important;
+    color: #FFFFFF !important;
+}
+
+    .btn-cta:hover {
+        background-color: #B9FFFF !important;
+        color: #1D1F3F !important;
+    }
+
+/* Form Elements (Dark Theme) */
+input,
+textarea,
+select {
+    border: 1px solid #444 !important; /* Dark borders for inputs */
+    background-color: #333 !important; /* Dark background */
+    color: #E1E1E1 !important; /* Light text */
+}
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #00FFF7 !important; /* Neon blue focus border */
+        box-shadow: 0 0 0 0.2rem rgba(0, 255, 247, 0.25) !important;
+    }
+
+/* Links (Neon Glow) */
+a {
+    color: #00D9FF !important; /* Neon Blue links */
+    text-shadow: 0 0 10px #00D9FF !important; /* Neon glow effect */
+}
+
+    a:hover {
+        color: #FF00FF !important; /* Neon Pink on hover */
+        text-shadow: 0 0 10px #FF00FF !important; /* Neon pink glow effect */
+    }
+
+
+/* Card Buttons (Improved Readability) */
+.card .btn {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 5px !important; /* Rounded buttons */
+    padding: 10px 20px;
+}
+
+/* Primary Button on Cards (Info Button) */
+.card .btn-info {
+    background-color: #00FFF7 !important; /* Neon blue */
+    border-color: #00FFF7 !important;
+    color: #1D1F3F !important; /* Dark text color */
+    text-shadow: 0 0 5px #00D9FF; /* Soft neon blue glow */
+}
+
+    .card .btn-info:hover {
+        background-color: #00D9FF !important; /* Lighter neon blue on hover */
+        border-color: #00D9FF !important;
+        color: #1D1F3F !important;
+        text-shadow: 0 0 10px #00D9FF !important; /* Stronger neon glow */
+    }
+
+/* Warning Button on Cards (Edit Button) */
+.card .btn-warning {
+    background-color: #FF4EDB !important; /* Neon pink */
+    border-color: #FF4EDB !important;
+    color: #FFFFFF !important; /* White text for clarity */
+    text-shadow: 0 0 5px #FF4EDB; /* Soft pink glow */
+}
+
+    .card .btn-warning:hover {
+        background-color: #FF00FF !important; /* Neon pink on hover */
+        border-color: #FF00FF !important;
+        color: #FFFFFF !important;
+        text-shadow: 0 0 10px #FF00FF !important; /* Stronger neon pink glow */
+    }
+
+/* Danger Button on Cards (Delete Button) */
+.card .btn-danger {
+    background-color: #FF4D4D !important; /* Neon red */
+    border-color: #FF4D4D !important;
+    color: #FFFFFF !important; /* White text */
+    text-shadow: 0 0 5px #FF4D4D; /* Soft red glow */
+}
+
+    .card .btn-danger:hover {
+        background-color: #FF0000 !important; /* Bright red on hover */
+        border-color: #FF0000 !important;
+        color: #FFFFFF !important;
+        text-shadow: 0 0 10px #FF0000 !important; /* Stronger red glow */
+    }
+
+/* Button Sizes in Cards */
+.card .btn-sm {
+    font-size: 1.2rem; /* Increased size for better readability */
+    padding: 10px 15px;
+}
+
+/* Ensure button text has enough contrast */
+.card .btn {
+    color: #FFFFFF !important; /* Ensure buttons have white text for readability */
+}
+
+    /* Button Hover Effects */
+    .card .btn:hover {
+        transform: scale(1.05); /* Slightly scale-up effect on hover */
+        box-shadow: 0 4px 12px rgba(0, 255, 247, 0.5) !important; /* Neon blue glow */
+    }
+
+/* Ensuring cards have equal height */
+.card {
+    display: flex;
+    flex-direction: column;
+    background-color: #1C1C1C !important; /* Dark background for cards */
+    border: 1px solid #444 !important; /* Dark border for cards */
+    box-shadow: 0 4px 6px rgba(0, 255, 247, 0.3) !important; /* Neon blue shadow */
+    color: #E1E1E1 !important;
+    height: 100%; /* Allow the card to stretch fully */
+}
+
+    /* Image within card */
+    .card .card-img-top {
+        height: 200px; /* Fixed height for images to avoid overflow */
+        object-fit: cover; /* Makes sure images cover the area without distortion */
+        width: 100%; /* Makes the image cover the full width */
+    }
+
+/* Card Body */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Makes sure the body takes all available space in the card */
+}
+
+/* Ensure buttons within the card don't push the body too far */
+.card .btn {
+    margin-top: auto; /* Push buttons to the bottom of the card */
+    width: 100%; /* Full width of the card */
+}
+
+/* Ensuring uniform height for all cards */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-lg-3, .col-md-4, .col-sm-6 {
+    display: flex;
+    flex-direction: column;
+}
+
