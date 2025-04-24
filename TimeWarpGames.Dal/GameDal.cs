@@ -14,5 +14,20 @@ namespace TimeWarpGames.Dal
                 return lstGames;
             }
         }
+
+        public static bool Create(Game game)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                db.Games.Add(game);
+                int i = db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+                return false;
+                
+            }
+        }
     }
 }
