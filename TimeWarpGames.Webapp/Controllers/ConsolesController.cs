@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -32,11 +33,25 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
             int Stock, string Brand, string Model, DateTime ReleaseDate, TimeWarpGames.Entities.State State)
         {
-            
-            bool consoleCreated = TimeWarpGames.Bll.ConsoleBll.Create(Name, IsBoxed, Image, Description, Price, Stock,
+            string ImageName = "~/Content/Images/placeholder.png";
+
+            if (Image != null)
+            {
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
+                {
+                    string PathToSave = Server.MapPath("~/Content/Images/ConsoleImages/");
+                    string imageExtension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + imageExtension;
+                    PathToSave += ImageName;
+                    Image.SaveAs(PathToSave);
+                }
+            }
+
+
+            bool consoleCreated = TimeWarpGames.Bll.ConsoleBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
                 Brand, Model, ReleaseDate, State);
             if (consoleCreated)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,10 +31,24 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
             int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
         {
-            bool accessoryCreated = AccessoryBll.Create(Name, IsBoxed, Image, Description, Price, Stock, Brand,
+            string ImageName = "placeholder.png";
+
+            if (Image != null)
+            {
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
+                {
+                    string pathToSave = Server.MapPath("~/Content/Images/AccessoryPics/");
+                    string pictureExtension = Path.GetExtension(Image.FileName);
+                    ImageName = Name + pictureExtension;
+                    pathToSave += ImageName;
+                    Image.SaveAs(pathToSave);
+                }
+            }
+
+            bool accessoryCreated = AccessoryBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock, Brand,
                 Platform, Type, State);
             if (accessoryCreated)
             {
@@ -45,6 +60,20 @@ namespace TimeWarpGames.Webapp.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                Accessory accessory = AccessoryBll.ReadOne(id);
+                return View(accessory);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
     }
 }

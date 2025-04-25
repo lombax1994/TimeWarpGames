@@ -31,5 +31,16 @@ namespace TimeWarpGames.Bll
             bool gameCreated = GameDal.Create(game);
             return gameCreated;
         }
+
+        public static Game ReadOne(int id)
+        {
+            Game game = GameDal.ReadOne(id);
+            if (game == null)
+            {
+                throw new Exception("Geen Game gevonden");
+            }
+
+            return game;
+        }
     }
 }

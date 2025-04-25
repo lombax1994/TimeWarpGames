@@ -31,5 +31,15 @@ namespace TimeWarpGames.Bll
             bool accessoryCreated = AccessoryDal.Create(accessory);
             return accessoryCreated;
         }
+
+        public static Accessory ReadOne(int id)
+        {
+            Accessory accessory = AccessoryDal.ReadOne(id);
+            if (accessory == null)
+            {
+                throw new Exception("Geen accessoire gevonden");
+            }
+            return accessory;
+        }
     }
 }

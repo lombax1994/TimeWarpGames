@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,11 +32,25 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
             int Stock,
             Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
         {
-            bool memberCreated = TimeWarpGames.Bll.GameBll.Create(Name, IsBoxed, Image, Description, Price, Stock,
+        string ImageName = "~/Content/Images/placeholder.png";
+
+        if (Image != null)
+        {
+            if (Image.ContentType == "image/jpeg" || Image.ContentType == "image.png")
+            {
+                string pathToSave = Server.MapPath("~/Content/Images/GamePics");
+                string ImageExtension = Path.GetExtension(Image.FileName);
+                ImageName = Guid.NewGuid() + ImageExtension;
+                pathToSave += ImageName;
+                Image.SaveAs(pathToSave);
+            }
+        }
+
+        bool memberCreated = TimeWarpGames.Bll.GameBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
                 Platform, Genre, Developer, ReleaseDate, AgeRating);
             if (memberCreated)
             {
@@ -47,6 +62,20 @@ namespace TimeWarpGames.Webapp.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
+                return View(game);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Er is een fout opgetreden bij het ophalen van de spelgegevens.";
+                return View("Error");
+            }
         }
     }
 }

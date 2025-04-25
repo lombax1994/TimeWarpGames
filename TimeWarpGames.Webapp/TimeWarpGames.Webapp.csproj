@@ -257,10 +257,14 @@
     <Content Include="Views\Games\Create.cshtml" />
     <Content Include="Views\Accessories\Create.cshtml" />
     <Content Include="Views\Consoles\Details.cshtml" />
+    <Content Include="Views\Games\Details.cshtml" />
+    <Content Include="Views\Accessories\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\" />
+    <Folder Include="Content\Images\AccessoryPics\" />
+    <Folder Include="Content\Images\ConsolePics\" />
+    <Folder Include="Content\Images\GamePics\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

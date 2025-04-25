@@ -37,5 +37,14 @@ namespace TimeWarpGames.Dal
             }
             
         }
+
+        public static Accessory ReadOne(int id)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                Accessory accessory = db.Accessories.Find(id);
+                return accessory;
+            }
+        }
     }
 }

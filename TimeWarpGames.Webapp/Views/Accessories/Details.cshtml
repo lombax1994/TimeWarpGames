@@ -1,18 +1,22 @@
-﻿@model TimeWarpGames.Entities.Console
+﻿@model TimeWarpGames.Entities.Accessory
 
 @{
-    ViewBag.Title = "Console Details";
+    ViewBag.Title = "Accessory Details";
 }
 
 <div class="container mt-5">
     <div class="card shadow rounded-4 p-4">
         <div class="row g-4">
-            <!-- Left: Console Image -->
+            <!-- Left: Accessory Image -->
             <div class="col-md-4 text-center">
-                <img src="~/Content/Images/ConsolePics/@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
+                <img src="~/Content/Images/AccessoryPics/@Model.Image"
+                     alt="@Model.Name"
+                     class="img-fluid rounded shadow-sm"
+                     style="max-height: 300px; width: 100%; object-fit: contain;"
+                     onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/placeholder.png")';" />
             </div>
 
-            <!-- Right: Console Details -->
+            <!-- Right: Accessory Details -->
             <div class="col-md-8 d-flex flex-column justify-content-between">
                 <div>
                     <!-- Name -->
@@ -21,34 +25,34 @@
                     <!-- Description -->
                     <p class="text-secondary small mb-4">@Model.Description</p>
 
-                    <!-- Brand + Model -->
+                    <!-- Brand + Platform -->
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
+                            <strong>Brand:</strong> @Model.Brand
                         </div>
                         <div class="col-sm-6">
-                            <strong>Model:</strong> @Html.DisplayFor(m => m.Model)
+                            <strong>Platform:</strong> @Model.Platform
                         </div>
                     </div>
 
-                    <!-- State + IsBoxed -->
+                    <!-- Type + State -->
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <strong>State:</strong> @Model.State.ToString()
+                            <strong>Type:</strong> @Model.Type
                         </div>
                         <div class="col-sm-6">
-                            <strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
+                            <strong>State:</strong> @Model.State
                         </div>
                     </div>
 
-                    <!-- Release Date -->
+                    <!-- Boxed -->
                     <div class="mb-3">
-                        <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+                        <strong>Boxed:</strong> @(Model.IsBoxed ? "Ja" : "Nee")
                     </div>
 
                     <!-- Price -->
                     <div class="mb-4">
-                        <span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
+                        <span class="fs-4 fw-bold text-success">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
                     </div>
                 </div>
 
