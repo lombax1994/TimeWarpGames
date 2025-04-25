@@ -33,10 +33,20 @@ namespace TimeWarpGames.Dal
 
                     return false;
                 }
+                catch
+                {
+                    return false;
+                }
             }
-            catch
+            
+        }
+
+        public static Console ReadOne(int id)
+        {
+            using (var db = new TimeWarpGamesDbContext())
             {
-                return false;
+                Console console = db.Consoles.Find(id);
+                return console;
             }
         }
     }

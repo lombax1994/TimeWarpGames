@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TimeWarpGames.Dal;
+using Console = TimeWarpGames.Entities.Console;
 
 namespace TimeWarpGames.Bll
 {
@@ -19,7 +20,7 @@ namespace TimeWarpGames.Bll
             return lstConsoles;
         }
 
-        public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price, 
+        public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
             int Stock, string Brand, string Model, DateTime ReleaseDate, TimeWarpGames.Entities.State State)
         {
             Name = Name.Trim();
@@ -33,6 +34,17 @@ namespace TimeWarpGames.Bll
                 Description, Price, Stock, Brand, Model, ReleaseDate, State);
             bool memberCreated = ConsoleDal.Create(console);
             return memberCreated;
+        }
+
+        public static Console ReadOne(int id)
+        {
+            Console console = ConsoleDal.ReadOne(id);
+            if (console == null)
+            {
+                throw new Exception("Console not found.");
+            }
+
+            return console;
         }
     }
 }

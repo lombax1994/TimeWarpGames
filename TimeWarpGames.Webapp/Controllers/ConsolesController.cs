@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Console = TimeWarpGames.Entities.Console;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
@@ -48,6 +49,34 @@ namespace TimeWarpGames.Webapp.Controllers
 
             return View();
 
+        }
+
+        public ActionResult Details(int id)
+        {
+            try
+            {
+                Console console = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+                return View(console);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                Console console = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+                return View(console);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
         }
     }
 }

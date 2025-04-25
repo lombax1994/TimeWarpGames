@@ -25,7 +25,7 @@ namespace TimeWarpGames.Dal.Migrations
                 new Game(
                     name: "The Legend of Zelda: Breath of the Wild",
                     isBoxed: true,
-                    image: "Content/images/zelda.jpg",
+                    image: "Content/Images/zelda.jpg",
                     description: "Een episch open wereld avontuur met Link.",
                     price: 59.99m,
                     stock: 100,
@@ -44,7 +44,7 @@ namespace TimeWarpGames.Dal.Migrations
                 new TimeWarpGames.Entities.Console(
                     name: "Nintendo Entertainment System (NES)",
                     isBoxed: true,
-                    image: "Content/images/nes.jpg",
+                    image: "Content/Images/nes.jpg",
                     description: "De originele 8-bit console van Nintendo uit de jaren 80. Retro gaming op z'n best!",
                     price: 89.99m,
                     stock: 25,
@@ -60,7 +60,7 @@ namespace TimeWarpGames.Dal.Migrations
                 new Accessory(
                     name: "Nintendo 64 Controller (Original Grey)",
                     isBoxed: true,
-                    image: "Content/images/n64-controller.jpg",
+                    image: "Content/Images/n64-controller.jpg",
                     description: "Originele N64 controller in klassieke grijze uitvoering. Voor de ultieme retro ervaring.",
                     price: 29.99m,
                     stock: 40,

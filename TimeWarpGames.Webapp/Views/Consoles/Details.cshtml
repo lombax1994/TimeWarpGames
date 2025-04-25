@@ -1,0 +1,70 @@
+﻿@model TimeWarpGames.Entities.Console
+
+@{
+    ViewBag.Title = "Console Details";
+}
+
+<div class="container mt-5">
+    <div class="card shadow rounded-4 p-4">
+        <div class="row g-4">
+            <!-- Left: Console Image -->
+            <div class="col-md-4 text-center">
+                <img src="@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
+            </div>
+
+            <!-- Right: Console Details -->
+            <div class="col-md-8 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Name -->
+                    <h2 class="fw-bold text-light">@Model.Name</h2>
+
+                    <!-- Description -->
+                    <p class="text-secondary small mb-4">@Model.Description</p>
+
+                    <!-- Brand + Model -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Model:</strong> @Html.DisplayFor(m => m.Model)
+                        </div>
+                    </div>
+
+                    <!-- State + IsBoxed -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>State:</strong> @Model.State.ToString()
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
+                        </div>
+                    </div>
+
+                    <!-- Release Date -->
+                    <div class="mb-3">
+                        <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-4">
+                        <span class="fs-4 fw-bold text-success">$@Html.DisplayFor(m => m.Price)</span>
+                    </div>
+                </div>
+
+                <!-- Bottom Right Add to Cart -->
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-success px-4">
+                        <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="mt-4">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+    </div>
+</div>
