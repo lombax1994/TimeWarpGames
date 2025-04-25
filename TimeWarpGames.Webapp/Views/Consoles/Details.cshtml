@@ -9,7 +9,7 @@
         <div class="row g-4">
             <!-- Left: Console Image -->
             <div class="col-md-4 text-center">
-                <img src="@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
+                <img src="@Url.Content(Model.Image)" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
             </div>
 
             <!-- Right: Console Details -->
@@ -48,7 +48,7 @@
 
                     <!-- Price -->
                     <div class="mb-4">
-                        <span class="fs-4 fw-bold text-success">$@Html.DisplayFor(m => m.Price)</span>
+                        <span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
                     </div>
                 </div>
 
