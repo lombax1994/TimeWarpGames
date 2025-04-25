@@ -35,7 +35,7 @@ namespace TimeWarpGames.Dal
                     return false;
                 }
             }
-            
+
         }
 
         public static Accessory ReadOne(int id)
@@ -44,6 +44,21 @@ namespace TimeWarpGames.Dal
             {
                 Accessory accessory = db.Accessories.Find(id);
                 return accessory;
+            }
+        }
+
+        public static bool Delete(Accessory accessory)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                db.Entry(accessory).State = System.Data.Entity.EntityState.Deleted;
+                int i = db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
     }

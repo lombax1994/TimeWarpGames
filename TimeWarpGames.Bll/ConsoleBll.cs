@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using TimeWarpGames.Dal;
 using Console = TimeWarpGames.Entities.Console;
 
@@ -45,6 +46,20 @@ namespace TimeWarpGames.Bll
             }
 
             return console;
+        }
+
+        public static bool Delete(int id)
+        {
+            try
+            {
+                Console console = ConsoleDal.ReadOne(id);
+                bool consoleDeleted = ConsoleDal.Delete(console);
+                return consoleDeleted;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
     }
 }

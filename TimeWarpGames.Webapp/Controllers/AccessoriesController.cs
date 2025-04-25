@@ -75,5 +75,38 @@ namespace TimeWarpGames.Webapp.Controllers
                 return View("Error");
             }
         }
-    }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                Accessory accessory = AccessoryBll.ReadOne(id);
+                return View(accessory);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            
+                int accessoryId = Convert.ToInt32(id);
+                bool accessoryDeleted = AccessoryBll.Delete(accessoryId);
+                if (accessoryDeleted)
+                {
+                    TempData["Feedback"] = "Accessoire is verwijderd";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            
+            
+        }
 }

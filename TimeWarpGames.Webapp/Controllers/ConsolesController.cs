@@ -42,7 +42,7 @@ namespace TimeWarpGames.Webapp.Controllers
             {
                 if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
                 {
-                    string PathToSave = Server.MapPath("~/Content/Images/ConsoleImages/");
+                    string PathToSave = Server.MapPath("~/Content/Images/ConsolePics/");
                     string imageExtension = Path.GetExtension(Image.FileName);
                     ImageName = Guid.NewGuid() + imageExtension;
                     PathToSave += ImageName;
@@ -90,6 +90,22 @@ namespace TimeWarpGames.Webapp.Controllers
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            int consoleId = Convert.ToInt32(id);
+            bool consoleDeleted = TimeWarpGames.Bll.ConsoleBll.Delete(consoleId);
+            if (consoleDeleted)
+            {
+                TempData["Feedback"] = "Console is verwijderd.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
                 return View("Error");
             }
         }

@@ -42,5 +42,19 @@ namespace TimeWarpGames.Bll
 
             return game;
         }
+
+        public static bool Delete(int id)
+        {
+            try
+            {
+                Game game = GameDal.ReadOne(id);
+                bool gameDeleted = GameDal.Delete(game);
+                return gameDeleted;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -66,6 +66,10 @@
     <Compile Include="Migrations\202504250755345_ChangedImagePath.Designer.cs">
       <DependentUpon>202504250755345_ChangedImagePath.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202504250859030_ImageFunctionality.cs" />
+    <Compile Include="Migrations\202504250859030_ImageFunctionality.Designer.cs">
+      <DependentUpon>202504250859030_ImageFunctionality.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeWarpGamesDbContext.cs" />
@@ -89,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202504250755345_ChangedImagePath.resx">
       <DependentUpon>202504250755345_ChangedImagePath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202504250859030_ImageFunctionality.resx">
+      <DependentUpon>202504250859030_ImageFunctionality.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

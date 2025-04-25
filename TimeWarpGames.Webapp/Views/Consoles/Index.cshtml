@@ -4,6 +4,8 @@
 	ViewBag.Title = "Index";
 }
 
+<p>@TempData["Feedback"]</p>
+
 <!-- Create Button (top right corner) -->
 <div class="text-right mb-3">
 	@Html.ActionLink("Console toevoegen", "Create", null, new { @class = "btn btn-primary" })

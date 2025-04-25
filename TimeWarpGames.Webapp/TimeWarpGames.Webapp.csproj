@@ -259,6 +259,9 @@
     <Content Include="Views\Consoles\Details.cshtml" />
     <Content Include="Views\Games\Details.cshtml" />
     <Content Include="Views\Accessories\Details.cshtml" />
+    <Content Include="Views\Consoles\Delete.cshtml" />
+    <Content Include="Views\Games\Delete.cshtml" />
+    <Content Include="Views\Accessories\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

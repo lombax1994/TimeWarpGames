@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using TimeWarpGames.Bll;
 using TimeWarpGames.Entities;
 
 namespace TimeWarpGames.Webapp.Controllers
@@ -42,7 +44,7 @@ namespace TimeWarpGames.Webapp.Controllers
         {
             if (Image.ContentType == "image/jpeg" || Image.ContentType == "image.png")
             {
-                string pathToSave = Server.MapPath("~/Content/Images/GamePics");
+                string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
                 string ImageExtension = Path.GetExtension(Image.FileName);
                 ImageName = Guid.NewGuid() + ImageExtension;
                 pathToSave += ImageName;
@@ -74,6 +76,36 @@ namespace TimeWarpGames.Webapp.Controllers
             catch (Exception ex)
             {
                 ViewBag.ErrorMessage = "Er is een fout opgetreden bij het ophalen van de spelgegevens.";
+                return View("Error");
+            }
+        }
+
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
+                return View(game);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "Er is een fout opgetreden bij het ophalen van de spelgegevens.";
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            int gameId = Convert.ToInt32(id);
+            bool gameDeleted = GameBll.Delete(gameId);
+            if (gameDeleted)
+            {
+                TempData["Feedback"] = "Game is verwijderd.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
                 return View("Error");
             }
         }

@@ -41,5 +41,19 @@ namespace TimeWarpGames.Bll
             }
             return accessory;
         }
+
+        public static bool Delete(int id)
+        {
+            try
+            {
+                Accessory accessory = AccessoryDal.ReadOne(id);
+                bool accessoryDeleted = AccessoryDal.Delete(accessory);
+                return accessoryDeleted;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

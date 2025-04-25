@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using TimeWarpGames.Entities;
 
@@ -44,6 +45,21 @@ namespace TimeWarpGames.Dal
             {
                 Game game = db.Games.Find(id);
                 return game;
+            }
+        }
+
+        public static bool Delete(Game game)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                db.Entry(game).State = EntityState.Deleted;
+                int i = db.SaveChanges();
+                if (i > 0)
+                {
+                    return true;
+                }
+
+                return false;
             }
         }
     }
