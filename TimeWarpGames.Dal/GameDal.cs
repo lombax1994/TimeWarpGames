@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using TimeWarpGames.Entities;
 
@@ -62,5 +64,29 @@ namespace TimeWarpGames.Dal
                 return false;
             }
         }
+
+        public static bool Update(Game updatedGame)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                try
+                {
+                    // AddOrUpdate will add or update the entity depending on whether it already exists
+                    db.Games.AddOrUpdate(updatedGame);
+
+                    // Save the changes to the database
+                    int numberOfChanges = db.SaveChanges();
+
+                    // Return true if changes were made
+                    return numberOfChanges > 0;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+
     }
 }

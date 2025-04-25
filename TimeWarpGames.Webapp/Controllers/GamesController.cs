@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -34,25 +35,26 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
+            decimal Price,
             int Stock,
             Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
         {
-        string ImageName = "~/Content/Images/placeholder.png";
+            string ImageName = "~/Content/Images/placeholder.png";
 
-        if (Image != null)
-        {
-            if (Image.ContentType == "image/jpeg" || Image.ContentType == "image.png")
+            if (Image != null)
             {
-                string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
-                string ImageExtension = Path.GetExtension(Image.FileName);
-                ImageName = Guid.NewGuid() + ImageExtension;
-                pathToSave += ImageName;
-                Image.SaveAs(pathToSave);
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image.png")
+                {
+                    string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
+                    string ImageExtension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + ImageExtension;
+                    pathToSave += ImageName;
+                    Image.SaveAs(pathToSave);
+                }
             }
-        }
 
-        bool memberCreated = TimeWarpGames.Bll.GameBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
+            bool memberCreated = TimeWarpGames.Bll.GameBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
                 Platform, Genre, Developer, ReleaseDate, AgeRating);
             if (memberCreated)
             {
@@ -109,5 +111,77 @@ namespace TimeWarpGames.Webapp.Controllers
                 return View("Error");
             }
         }
+
+        // GET: Games/Edit/5
+        // GET: Games/Edit/5
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
+                if (game == null)
+                {
+                    // If no game is found with the given id, return HttpNotFound
+                    return HttpNotFound();
+                }
+
+                return View(game);
+            }
+            catch (Exception ex)
+            {
+                // In case of any errors (e.g., DB connection failure), show an error page
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+
+        // POST: Games/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
+            decimal Price, int Stock, Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
+        {
+            string ImageName;
+
+            // Retrieve the existing game
+            Game existingGame = TimeWarpGames.Bll.GameBll.ReadOne(id);
+            if (existingGame == null)
+            {
+                return HttpNotFound(); // Return 404 if the game doesn't exist
+            }
+
+            ImageName = existingGame.Image; // Keep the existing image if not replaced
+
+            // If a new image is uploaded, handle the file saving
+            if (Image != null)
+            {
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
+                {
+                    string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
+                    string ImageExtension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + ImageExtension;
+                    Image.SaveAs(Path.Combine(pathToSave, ImageName));
+                }
+            }
+
+            // Call the BLL to update the game
+            bool gameUpdated = TimeWarpGames.Bll.GameBll.Update(id, Name, IsBoxed, ImageName, Description, Price, Stock,
+                Platform, Genre, Developer, ReleaseDate, AgeRating);
+
+            if (gameUpdated)
+            {
+                ViewBag.Feedback = Name + " is bijgewerkt";
+            }
+            else
+            {
+                ViewBag.Feedback = "Bijwerken van spel is niet gelukt";
+            }
+
+            return View(TimeWarpGames.Bll.GameBll.ReadOne(id)); // Re-fetch and display the updated game
+        }
+
+
+
+
     }
 }
