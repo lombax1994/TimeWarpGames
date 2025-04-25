@@ -1,4 +1,6 @@
-﻿@model TimeWarpGames.Entities.Game
+﻿@using System.ComponentModel.DataAnnotations
+@using TimeWarpGames.Entities
+@model TimeWarpGames.Entities.Game
 
 @{
     ViewBag.Title = "Create";
@@ -11,9 +13,9 @@
 
 @using (Html.BeginForm("Create", "Games", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-                @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-                <div class="form-horizontal">
+    <div class="form-horizontal">
         <h4>Game</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -38,7 +40,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               <input type ="file" name="Image" accept=".jpg, .jpeg, .png"/>
+                <input type="file" name="Image" accept=".jpg, .jpeg, .png" />
             </div>
         </div>
 
