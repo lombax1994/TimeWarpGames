@@ -19,14 +19,23 @@ namespace TimeWarpGames.Dal
         {
             using (var db = new TimeWarpGamesDbContext())
             {
-                db.Accessories.Add(accessory);
-                int i = db.SaveChanges();
-                if (i > 0)
+                try
                 {
-                    return true;
+                    db.Accessories.Add(accessory);
+                    int i = db.SaveChanges();
+                    if (i > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
                 }
-                return false;
+                catch
+                {
+                    return false;
+                }
             }
+            
         }
     }
 }

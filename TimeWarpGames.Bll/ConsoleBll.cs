@@ -22,6 +22,13 @@ namespace TimeWarpGames.Bll
         public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price, 
             int Stock, string Brand, string Model, DateTime ReleaseDate, TimeWarpGames.Entities.State State)
         {
+            Name = Name.Trim();
+            Description = Description.Trim();
+            Brand = Brand.Trim();
+            Model = Model.Trim();
+            Image = Image.Trim();
+
+
             TimeWarpGames.Entities.Console console = new TimeWarpGames.Entities.Console(Name, IsBoxed, Image,
                 Description, Price, Stock, Brand, Model, ReleaseDate, State);
             bool memberCreated = ConsoleDal.Create(console);

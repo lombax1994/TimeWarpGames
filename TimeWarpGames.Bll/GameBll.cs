@@ -21,6 +21,11 @@ namespace TimeWarpGames.Bll
         public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price, int Stock,
             Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
         {
+
+            Name = Name.Trim();
+            Description = Description.Trim();
+            Developer = Developer.Trim();
+
             Game game = new Game(Name, IsBoxed, Image, Description, Price, Stock, Platform, Genre, Developer,
                 ReleaseDate, AgeRating);
             bool gameCreated = GameDal.Create(game);

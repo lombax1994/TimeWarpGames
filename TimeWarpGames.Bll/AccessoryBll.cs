@@ -22,6 +22,10 @@ namespace TimeWarpGames.Bll
         public static bool Create(string Name, bool IsBoxed, string Image, string Description, decimal Price,
             int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
         {
+            Name = Name.Trim();
+            Description = Description.Trim();
+            Brand = Brand.Trim();
+
             Accessory accessory = new Accessory(Name, IsBoxed, Image, Description, Price, Stock, Brand, Platform,
                 Type, State);
             bool accessoryCreated = AccessoryDal.Create(accessory);
