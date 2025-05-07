@@ -6,8 +6,8 @@
 
 <div class="container mt-5">
     <div class="card shadow rounded-4 p-4">
-        <div class="row g-4">
-            <!-- Left: Accessory Image -->
+        <div class="row g-4 align-items-start">
+            <!-- Image -->
             <div class="col-md-4 text-center">
                 <img src="~/Content/Images/AccessoryPics/@Model.Image"
                      alt="@Model.Name"
@@ -16,50 +16,43 @@
                      onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/placeholder.png")';" />
             </div>
 
-            <!-- Right: Accessory Details -->
+            <!-- Text Content -->
             <div class="col-md-8 d-flex flex-column justify-content-between">
                 <div>
-                    <!-- Name -->
-                    <h2 class="fw-bold text-light">@Model.Name</h2>
+                    <!-- Name and Description -->
+                    <h2 class="fw-bold">@Model.Name</h2>
+                    <p class="text-secondary small mb-3">@Model.Description</p>
 
-                    <!-- Description -->
-                    <p class="text-secondary small mb-4">@Model.Description</p>
-
-                    <!-- Brand + Platform -->
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
-                            <strong>Brand:</strong> @Model.Brand
+                    <!-- Two Column Labels -->
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <div><strong>Brand:</strong> @Model.Brand</div>
+                            <div><strong>Type:</strong> @Model.Type</div>
+                            <div><strong>Stock:</strong> @Model.Stock</div>
                         </div>
-                        <div class="col-sm-6">
-                            <strong>Platform:</strong> @Model.Platform
+                        <div class="col-6 mb-2">
+                            <div><strong>Platform:</strong> @Model.Platform</div>
+                            <div><strong>State:</strong> @Model.State</div>
+                            <div>
+                                <strong>Boxed:</strong>
+                                @if (Model.IsBoxed)
+                                {
+                                    <i class="fa-solid fa-check text-success"></i>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-xmark text-danger"></i>
+                                }
+                            </div>
                         </div>
-                    </div>
-
-                    <!-- Type + State -->
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
-                            <strong>Type:</strong> @Model.Type
-                        </div>
-                        <div class="col-sm-6">
-                            <strong>State:</strong> @Model.State
-                        </div>
-                    </div>
-
-                    <!-- Boxed -->
-                    <div class="mb-3">
-                        <strong>Boxed:</strong> @(Model.IsBoxed ? "Ja" : "Nee")
-                    </div>
-
-                    <!-- Price -->
-                    <div class="mb-4">
-                        <span class="fs-4 fw-bold text-success">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
                     </div>
                 </div>
 
-                <!-- Bottom Right Add to Cart -->
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success px-4">
-                        <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                <!-- Bottom: Price and Add to Cart -->
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
+                    <button class="btn btn-outline-primary px-4">
+                        <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
                     </button>
                 </div>
             </div>
@@ -68,7 +61,7 @@
 
     <!-- Navigation Buttons -->
     <div class="mt-4">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-secondary me-2" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
     </div>
 </div>

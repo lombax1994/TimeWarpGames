@@ -261,6 +261,8 @@
     <Content Include="Views\Games\Delete.cshtml" />
     <Content Include="Views\Accessories\Delete.cshtml" />
     <Content Include="Views\Games\Edit.cshtml" />
+    <Content Include="Views\Consoles\Edit.cshtml" />
+    <Content Include="Views\Accessories\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

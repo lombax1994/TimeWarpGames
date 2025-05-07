@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using TimeWarpGames.Entities;
 
@@ -62,6 +63,23 @@ namespace TimeWarpGames.Dal
                     return true;
                 }
                 return false;
+            }
+        }
+
+        public static bool Update(Console updatedConsole)
+        {
+            using (var db = new TimeWarpGamesDbContext())
+            {
+                try
+                {
+                    db.Consoles.AddOrUpdate(updatedConsole);
+                    int numberOfChanges = db.SaveChanges();
+                    return numberOfChanges > 0;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
     }

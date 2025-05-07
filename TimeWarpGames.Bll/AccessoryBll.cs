@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Serialization.Formatters;
 using TimeWarpGames.Dal;
 using TimeWarpGames.Entities;
@@ -54,6 +55,51 @@ namespace TimeWarpGames.Bll
             {
                 return false;
             }
+        }
+
+        public static bool Update(int accessoryId, string updatedName, bool updatedIsBoxed, string updatedImage,
+            string updatedDescription, decimal updatedPrice, int updatedStock, string updatedBrand,
+            Platform updatedPlatform, AccessoryType updatedType, State updatedState)
+        {
+            Accessory accessory = AccessoryDal.ReadOne(accessoryId);
+
+            if (accessory == null)
+            {
+                return false;
+            }
+
+            //trim strings
+            updatedName = updatedName.Trim();
+            updatedDescription = updatedDescription.Trim();
+            updatedBrand = updatedBrand.Trim();
+
+            //controleer of getallen niet negatief zijn
+            if (updatedPrice < 0 || updatedStock < 0)
+            {
+                return false;
+            }
+            //controleer op lege velden, anders return false
+            if (string.IsNullOrEmpty(updatedName) || string.IsNullOrEmpty(updatedDescription) ||
+                string.IsNullOrEmpty(updatedBrand))
+            {
+                throw new Exception("Vul alle velden in");
+            }
+            //update de velden
+            accessory.Name = updatedName;
+            accessory.IsBoxed = updatedIsBoxed;
+            accessory.Image = updatedImage;
+            accessory.Description = updatedDescription;
+            accessory.Price = updatedPrice;
+            accessory.Stock = updatedStock;
+            accessory.Brand = updatedBrand;
+            accessory.Platform = updatedPlatform;
+            accessory.Type = updatedType;
+            accessory.State = updatedState;
+
+            bool accessoryUpdated = AccessoryDal.Update(accessory);
+            return accessoryUpdated;
+
+
         }
     }
 }

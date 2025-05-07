@@ -61,5 +61,49 @@ namespace TimeWarpGames.Bll
                 return false;
             }
         }
+
+        public static bool Update(int consoleId, string updatedName, bool updatedIsBoxed, string updatedImage,
+            string updatedDescription, decimal updatedPrice, int updatedStock, string updatedBrand, string updatedModel,
+            DateTime updatedReleaseDate, TimeWarpGames.Entities.State updatedState)
+        {
+            Console console = ConsoleDal.ReadOne(consoleId);
+            if (console == null)
+            {
+                throw new Exception("Console not found.");
+            }
+
+            //trim de invoer
+            updatedName = updatedName.Trim();
+            updatedDescription = updatedDescription.Trim();
+            updatedBrand = updatedBrand.Trim();
+            updatedModel = updatedModel.Trim();
+
+            if (string.IsNullOrEmpty(updatedName) ||
+                string.IsNullOrEmpty(updatedBrand) ||
+                string.IsNullOrEmpty(updatedDescription) ||
+                string.IsNullOrEmpty(updatedModel) ||
+                updatedStock < 0 ||
+                updatedPrice <= 0)
+            {
+                return false;
+            }
+
+            //update de console
+            console.Name = updatedName;
+            console.IsBoxed = updatedIsBoxed;
+            console.Image = updatedImage;
+            console.Description = updatedDescription;
+            console.Price = updatedPrice;
+            console.Stock = updatedStock;
+            console.Brand = updatedBrand;
+            console.Model = updatedModel;
+            console.ReleaseDate = updatedReleaseDate;
+            console.State = updatedState;
+
+            //update de console in de database
+            bool consoleUpdated = ConsoleDal.Update(console);
+            return consoleUpdated;
+
+        }
     }
 }

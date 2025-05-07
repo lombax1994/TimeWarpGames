@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TimeWarpGames.Entities;
 
@@ -61,5 +62,29 @@ namespace TimeWarpGames.Dal
                 return false;
             }
         }
+
+        public static bool Update(Accessory updatedAccessory)
+        {
+
+            try
+            {
+                using (var db = new TimeWarpGamesDbContext())
+                {
+                    db.Entry(updatedAccessory).State = System.Data.Entity.EntityState.Modified;
+                    int i = db.SaveChanges();
+                    if (i > 0)
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

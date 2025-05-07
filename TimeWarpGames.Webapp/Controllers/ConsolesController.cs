@@ -33,7 +33,8 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
+            decimal Price,
             int Stock, string Brand, string Model, DateTime ReleaseDate, TimeWarpGames.Entities.State State)
         {
             string ImageName = "~/Content/Images/placeholder.png";
@@ -51,7 +52,8 @@ namespace TimeWarpGames.Webapp.Controllers
             }
 
 
-            bool consoleCreated = TimeWarpGames.Bll.ConsoleBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
+            bool consoleCreated = TimeWarpGames.Bll.ConsoleBll.Create(Name, IsBoxed, ImageName, Description, Price,
+                Stock,
                 Brand, Model, ReleaseDate, State);
             if (consoleCreated)
             {
@@ -108,6 +110,67 @@ namespace TimeWarpGames.Webapp.Controllers
             {
                 return View("Error");
             }
+        }
+
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                Console console = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+                if (console == null)
+                {
+                    return View("Error");
+                }
+
+                return View(console);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = ex.Message;
+                return View("Error");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Edit(int id, string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
+            decimal Price, int Stock, string Brand, string Model, DateTime ReleaseDate,
+            TimeWarpGames.Entities.State State)
+        {
+            string ImageName;
+
+            Console existingConsole = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+            if (existingConsole == null)
+            {
+                return View("Error");
+            }
+
+            ImageName = existingConsole.Image;
+
+            if (Image != null)
+            {
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
+                {
+                    string PathToSave = Server.MapPath("~/Content/Images/ConsolePics/");
+                    string imageExtension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + imageExtension;
+                    PathToSave += ImageName;
+                    Image.SaveAs(PathToSave);
+                }
+            }
+
+            bool consoleUpdated = TimeWarpGames.Bll.ConsoleBll.Update(id, Name, IsBoxed, ImageName, Description, Price,
+                Stock, Brand, Model, ReleaseDate, State);
+
+            if (consoleUpdated)
+            {
+                ViewBag.FeedBack = Name + "is bijgewerkt.";
+            }
+            else
+            {
+                ViewBag.FeedBack = "Console kon niet bijgewerkt worden.";
+            }
+
+            return RedirectToAction("Details", new { id = id });
         }
     }
 }
