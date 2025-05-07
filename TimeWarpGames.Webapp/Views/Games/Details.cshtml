@@ -62,18 +62,28 @@
                 </div>
 
                 <!-- Bottom Right Add to Cart -->
-                <div class="d-flex justify-content-end">
-                    <button class="btn btn-success px-4">
-                        <i class="bi bi-cart-plus me-1"></i> Add to Cart
-                    </button>
-                </div>
+                <!--Enkel zichtbaar als user is aangemeld-->
+
+                @if (User.Identity.IsAuthenticated)
+                {
+	                <div class="d-flex justify-content-end">
+		                <button class="btn btn-success px-4">
+			                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+		                </button>
+	                </div>
+                }
             </div>
         </div>
     </div>
 
     <!-- Navigation Buttons -->
-    <div class="mt-4">
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
-    </div>
+    <!--Enkel zichtbaar als user is aangemeld-->
+
+    @if (User.Identity.IsAuthenticated)
+    {
+	    <div class="mt-4">
+		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+		    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+	    </div>
+    }
 </div>
