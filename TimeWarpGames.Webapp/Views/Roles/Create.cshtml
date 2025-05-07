@@ -1,0 +1,27 @@
+﻿@model Microsoft.AspNet.Identity.EntityFramework.IdentityRole
+@{
+	ViewBag.Title = "Add role";
+}
+<h2>Add role</h2>
+@if (ViewBag.ErrorMessages != null)
+{
+	foreach (var errorMessage in ViewBag.ErrorMessages)
+	{
+		<div class="alert alert-danger" role="alert">
+			@errorMessage
+		</div>
+	}
+}
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+	@Html.ValidationSummary()
+	<div>
+		Role Name
+	</div>
+	<p>
+		@Html.TextBox("Name")
+	</p>
+	<input type="submit" value="Save" class="btn btn-warning" />
+}

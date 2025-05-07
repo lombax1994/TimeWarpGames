@@ -31,6 +31,7 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             // Deze create methode maakt enkel de Create view aan, hier kunnen we gegevens invullen

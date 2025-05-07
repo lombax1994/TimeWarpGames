@@ -31,7 +31,12 @@
                     <li>@Html.ActionLink("Consoles", "Index", "Consoles", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
                     <li>@Html.ActionLink("Games", "Index", "Games", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
                     <li>@Html.ActionLink("Accessories", "Index", "Accessories", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
-                </ul>
+               @if (User.IsInRole("SuperAdmin"))
+               {
+	               <li>@Html.ActionLink("Roles", "Index", "Roles", new{area=""}, new{@class="nav-link"})</li>
+               }
+                
+                    </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

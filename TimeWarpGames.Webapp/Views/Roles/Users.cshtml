@@ -1,0 +1,31 @@
+﻿@model IEnumerable<TimeWarpGames.Webapp.Models.ApplicationUser>
+@{
+	ViewBag.Title = "Users";
+}
+<h2>Users</h2>
+
+<table class="table table-striped">
+	<tr>
+		<th>E-mail</th>
+		<th></th>
+	</tr>
+	@foreach (var user in Model)
+	{
+		<tr>
+			<td>
+				@user.UserName
+			</td>
+			<td>
+				@using (Html.BeginForm("ManageUserRoles", "Roles", FormMethod.Post))
+				{
+					<input type="hidden" id="UserName" name="UserName"
+					       value="@user.UserName" />
+					<input type="submit" value="Manage roles" class="btn btn-primary" />
+				}
+			</td>
+		</tr>
+	}
+</table>
+
+
+

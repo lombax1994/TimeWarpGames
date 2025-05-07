@@ -25,6 +25,7 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
+        [Authorize]
         public ActionResult Create()
         {
             return View();

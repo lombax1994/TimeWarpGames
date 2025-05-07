@@ -1,0 +1,39 @@
+﻿@model TimeWarpGames.Webapp.Models.UserRole
+@{
+	ViewBag.Title = "ManageUserRoles";
+}
+<h2>ManageUserRoles</h2>
+@if (Model != null)
+{
+	<div>
+	<div>
+		<div class="row">
+			<div class="col-md-6">
+				<h3>@Model.UserName</h3>
+			</div>
+		</div>
+	</div>
+	<div>
+		@using (Html.BeginForm("UpdateRoles", "Roles", FormMethod.Post))
+		{
+			@Html.HiddenFor(m => m.UserName);
+			@Html.HiddenFor(m => m.UserId)
+			for (int i = 0; i < Model.UserRoles.Count; i++)
+			{
+				<div style="padding-left: 35px;">
+					@Html.CheckBoxFor(role => Model.UserRoles[i].IsChecked, new { id =
+						"userRoles_" + i })
+					@Html.DisplayFor(role => Model.UserRoles[i].Name)
+					@Html.HiddenFor(m => m.UserRoles[i].Id)
+					@Html.HiddenFor(m => m.UserRoles[i].Name)
+				</div>
+			}
+			<input type="submit" value="Update" class="btn btn-primary mt-3" />
+		}
+	</div>
+	</div>
+}
+else
+{
+	<h2>User not found</h2>
+}

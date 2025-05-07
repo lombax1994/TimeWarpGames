@@ -253,3 +253,50 @@ a {
     flex-direction: column;
 }
 
+/* Reset Bootstrap's default table background */
+table.table,
+table.table-striped,
+table.table-hover {
+    background-color: transparent !important;
+    color: inherit;
+    border-collapse: collapse;
+}
+
+/* General Table */
+table {
+    background-color: #1A1A1A !important;
+    color: #E1E1E1 !important;
+    border: 1px solid #444 !important;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Header Cells */
+th {
+    background-color: #121212 !important;
+    color: #00D9FF !important;
+    text-shadow: 0 0 5px #00D9FF;
+    border: 1px solid #444 !important;
+    padding: 12px;
+    font-weight: bold;
+}
+
+/* Table Cells */
+td {
+    background-color: #1A1A1A !important;
+    color: #E1E1E1 !important;
+    border: 1px solid #444 !important;
+    padding: 10px;
+}
+
+/* Remove hover styles entirely */
+table.table-hover tbody tr:hover {
+    background-color: inherit !important;
+    box-shadow: none !important;
+}
+
+/* Optional: Disable zebra striping */
+table.table-striped tbody tr:nth-of-type(odd),
+table.table-striped tbody tr:nth-of-type(even) {
+    background-color: #1A1A1A !important;
+}
