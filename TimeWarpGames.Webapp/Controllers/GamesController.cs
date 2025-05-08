@@ -31,7 +31,7 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Create()
         {
             // Deze create methode maakt enkel de Create view aan, hier kunnen we gegevens invullen
@@ -94,6 +94,7 @@ namespace TimeWarpGames.Webapp.Controllers
 
         //Met de delete methode maken we een view van een game aan
         //Hier kunnen we de game verwijderen
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Delete(int id)
         {
             try
@@ -128,6 +129,7 @@ namespace TimeWarpGames.Webapp.Controllers
         }
 
         //Hier wordt de edit view aangemaakt
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Edit(int id)
         {
             try

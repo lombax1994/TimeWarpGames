@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using TimeWarpGames.Bll;
 using TimeWarpGames.Entities;
+using TimeWarpGames.Webapp.Models;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
@@ -25,7 +26,7 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles="StoreManager")]
         public ActionResult Create()
         {
             return View();
@@ -77,6 +78,7 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Delete(int id)
         {
             try
@@ -108,6 +110,7 @@ namespace TimeWarpGames.Webapp.Controllers
                 }
         }
 
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Edit(int id)
         {
             try

@@ -9,11 +9,11 @@
         <div class="row g-4">
             <!-- Left: Game Image -->
             <div class="col-md-4 text-center">
-	            <img src="~/Content/Images/GamePics/@Model.Image"
-	                 alt="@Model.Name"
-	                 class="img-fluid rounded shadow-sm"
-	                 style="max-height: 300px; width: 100%; object-fit: contain;"
-	                 onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/placeholder.png")';" />
+                <img src="~/Content/Images/GamePics/@Model.Image"
+                     alt="@Model.Name"
+                     class="img-fluid rounded shadow-sm"
+                     style="max-height: 300px; width: 100%; object-fit: contain;"
+                     onerror="this.onerror=null;this.src='@Url.Content("~/Content/Images/placeholder.png")';" />
             </div>
 
             <!-- Right: Game Details -->
@@ -66,11 +66,11 @@
 
                 @if (User.Identity.IsAuthenticated)
                 {
-	                <div class="d-flex justify-content-end">
-		                <button class="btn btn-success px-4">
-			                <i class="bi bi-cart-plus me-1"></i> Add to Cart
-		                </button>
-	                </div>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success px-4">
+                            <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                        </button>
+                    </div>
                 }
             </div>
         </div>
@@ -79,11 +79,13 @@
     <!-- Navigation Buttons -->
     <!--Enkel zichtbaar als user is aangemeld-->
 
-    @if (User.Identity.IsAuthenticated)
-    {
-	    <div class="mt-4">
+    
+    <div class="mt-4">
+	    @if (User.IsInRole("StoreManager"))
+	    {
 		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-		    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
-	    </div>
-    }
+	    }
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+    </div>
+    
 </div>

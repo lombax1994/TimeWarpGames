@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCartDal.cs" />
     <Compile Include="TimeWarpGamesDbContext.cs" />
   </ItemGroup>
   <ItemGroup>

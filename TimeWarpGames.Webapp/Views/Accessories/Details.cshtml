@@ -67,11 +67,12 @@
     <!-- Navigation Buttons -->
     <!--Enkel zichtbaar als user is aangemeld-->
 
-    @if (User.Identity.IsAuthenticated)
-    {
-	    <div class="mt-4">
+   
+    <div class="mt-4">
+	    @if (User.IsInRole("StoreManager"))
+	    {
 		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-secondary me-2" })
-		    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
-	    </div>
-    }
+	    }
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
 </div>

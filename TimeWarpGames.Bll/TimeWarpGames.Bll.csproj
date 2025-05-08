@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +46,7 @@
     <Compile Include="ConsoleBll.cs" />
     <Compile Include="GameBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCartBll.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TimeWarpGames.Dal\TimeWarpGames.Dal.csproj">
