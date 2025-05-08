@@ -25,6 +25,21 @@ namespace TimeWarpGames.Entities
         [Range(0, int.MaxValue, ErrorMessage = "Voorraad moet een positief getal zijn")]
         public int Stock { get; set; }
 
+        public string ProductType
+        {
+            get
+            {
+                if (this is Console)
+                    return "Consoles";
+                if (this is Game)
+                    return "Games";
+                if (this is Accessory)
+                    return "Accessories";
+
+                return "Products"; // fallback
+            }
+        }
+
         public Product(string name, bool isBoxed, string image, string description, decimal price, int stock)
         {
             Name = name;

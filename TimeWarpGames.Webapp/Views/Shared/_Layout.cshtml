@@ -35,6 +35,10 @@
                {
 	               <li>@Html.ActionLink("Roles", "Index", "Roles", new{area=""}, new{@class="nav-link"})</li>
                }
+               @if (User.IsInRole("StoreManager"))
+               {
+                   <li>@Html.ActionLink("Products", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+               }
                 
                     </ul>
                 @Html.Partial("_LoginPartial")

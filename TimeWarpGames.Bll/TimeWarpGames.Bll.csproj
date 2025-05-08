@@ -45,6 +45,7 @@
     <Compile Include="AccessoryBll.cs" />
     <Compile Include="ConsoleBll.cs" />
     <Compile Include="GameBll.cs" />
+    <Compile Include="ProductBll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShoppingCartBll.cs" />
   </ItemGroup>
