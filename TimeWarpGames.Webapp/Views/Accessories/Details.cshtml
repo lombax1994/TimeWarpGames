@@ -2,11 +2,10 @@
 
 @if (TempData["Error"] != null)
 {
-	<div class="alert alert-danger">
-		@TempData["Error"]
-	</div>
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
 }
-
 
 @{
     ViewBag.Title = "Accessory Details";
@@ -36,7 +35,7 @@
                         <div class="col-6 mb-2">
                             <div><strong>Brand:</strong> @Model.Brand</div>
                             <div><strong>Type:</strong> @Model.Type</div>
-                            <div><strong>Stock:</strong> @Model.Stock</div>
+                            <div><strong>Stock:</strong> @Model.Stock</div> <!-- Voorraad toegevoegd -->
                         </div>
                         <div class="col-6 mb-2">
                             <div><strong>Platform:</strong> @Model.Platform</div>
@@ -57,33 +56,35 @@
                 </div>
 
                 <!-- Bottom: Price and Add to Cart -->
-                <!--Enkel zichtbaar als user is aangemeld-->
-
+                <!-- Enkel zichtbaar als user is aangemeld-->
                 @if (User.Identity.IsAuthenticated)
                 {
-	                <div class="d-flex justify-content-between align-items-center mt-4">
-		                <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
-		                <div class="mb-3">
-			                <strong>Voorraad:</strong> @Model.Stock
-		                </div>
-		                <button class="btn btn-outline-primary px-4">
-			                <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
-		                </button>
-	                </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
+                        <div class="mb-3">
+                            <strong>Voorraad:</strong> @Model.Stock
+                        </div>
+
+                        <!-- Formulier voor het toevoegen van de accessory aan de winkelwagen -->
+                        <form id="addToCart" asp-controller="ShoppingCart" asp-action="Add" method="post">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <button class="btn btn-outline-primary px-4">
+                                <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
                 }
             </div>
         </div>
     </div>
 
     <!-- Navigation Buttons -->
-    <!--Enkel zichtbaar als user is aangemeld-->
-
-   
+    <!-- Enkel zichtbaar als user is aangemeld-->
     <div class="mt-4">
-	    @if (User.IsInRole("StoreManager"))
-	    {
-		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-secondary me-2" })
-	    }
-	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+        @if (User.IsInRole("StoreManager"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-secondary me-2" })
+        }
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
     </div>
 </div>

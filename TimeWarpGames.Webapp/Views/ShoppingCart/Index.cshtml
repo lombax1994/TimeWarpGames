@@ -1,15 +1,68 @@
-﻿@foreach (var item in Model)
-{
-	<tr>
-		<td>@item.Name</td>
-		<td>
-			<form asp-action="UpdateQuantity" method="post" class="d-flex">
-				<input type="hidden" name="productId" value="@item.ProductId" />
-				<input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.MaxAllowed" class="form-control me-2" />
-				<button type="submit" class="btn btn-sm btn-primary">Update</button>
-			</form>
-		</td>
-		<td>@item.Price.ToString("C")</td>
-		<td>@item.TotalPrice.ToString("C")</td>
-	</tr>
+﻿@model List<TimeWarpGames.Entities.ShoppingCartItem>
+
+@{
+    ViewBag.Title = "Shopping Cart"; // Titel van de pagina
 }
+
+<div class="container mt-5">
+    <h2>Your Shopping Cart</h2>
+
+    <!-- Foutmelding als er een probleem is met de winkelwagen -->
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- Als de winkelwagen leeg is, toon een bericht -->
+    @if (Model.Count == 0)
+    {
+        <p>Your cart is empty.</p>
+    }
+    else
+    {
+        <!-- Als er producten in de winkelwagen zitten, toon een tabel -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td> <!-- Toon de naam van het product -->
+                        <td>
+                            <!-- Formulier om de hoeveelheid bij te werken -->
+                            <form action="@Url.Action("UpdateQuantity", "ShoppingCart")" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.Stock" class="form-control" style="width: 80px;" />
+                                <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
+                            </form>
+                        </td>
+                        <td>@item.Price.ToString("C")</td> <!-- Toon de prijs van het product -->
+                        <td>@(item.Quantity * item.Price).ToString("C")</td> <!-- Toon de totale prijs voor dit item -->
+                        <td>
+                            <!-- Formulier om het item te verwijderen uit de winkelwagen -->
+                            <form action="@Url.Action("Remove", "ShoppingCart")" method="post">
+                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Toon de totale prijs van de winkelwagen -->
+        <div class="mt-4">
+            <h4>Total: @Model.Sum(i => i.Quantity * i.Price).ToString("C")</h4>
+        </div>
+    }
+</div>

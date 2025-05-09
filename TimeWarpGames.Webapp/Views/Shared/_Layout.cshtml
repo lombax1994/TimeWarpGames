@@ -11,7 +11,6 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
     <!-- Custom Navbar with Retro-Sci-Fi Style -->
@@ -26,33 +25,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-	            <ul class="navbar-nav">
-		            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
-		            <li>@Html.ActionLink("Consoles", "Index", "Consoles", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
-		            <li>@Html.ActionLink("Games", "Index", "Games", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
-		            <li>@Html.ActionLink("Accessories", "Index", "Accessories", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
-		            @if (User.IsInRole("SuperAdmin"))
-		            {
-			            <li>@Html.ActionLink("Roles", "Index", "Roles", new{area=""}, new{@class="nav-link"})</li>
-		            }
-		            @if (User.IsInRole("StoreManager"))
-		            {
-			            <li>@Html.ActionLink("Products", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
-		            }
-                
-	            </ul>
-	            <ul class="navbar-nav">
-		            <li class="nav-item">
-			            <a class="nav-link position-relative custom-nav-link" href="@Url.Action("Index", "ShoppingCart")">
-				            <i class="fas fa-shopping-cart"></i>
-				            <span class="d-none d-sm-inline"> Cart</span>
-				            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
-					            @ViewBag.CartCount
-				            </span>
-			            </a>
-		            </li>
-	            </ul>
-                @Html.Partial("_LoginPartial")
+                <!-- Left: Menu Items -->
+                <ul class="navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
+                    <li>@Html.ActionLink("Consoles", "Index", "Consoles", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
+                    <li>@Html.ActionLink("Games", "Index", "Games", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
+                    <li>@Html.ActionLink("Accessories", "Index", "Accessories", new { area = "" }, new { @class = "nav-link custom-nav-link" })</li>
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        <li>@Html.ActionLink("Roles", "Index", "Roles", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    @if (User.IsInRole("StoreManager"))
+                    {
+                        <li>@Html.ActionLink("Products", "Index", "Products", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                </ul>
+
+                <!-- Right: Cart and Login/Register -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- ms-auto zorgt ervoor dat de elementen rechts uitgelijnd worden -->
+                    <!-- Shopping Cart Icon -->
+                    <li class="nav-item">
+                        <a class="nav-link position-relative custom-nav-link" href="@Url.Action("Index", "ShoppingCart")">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="d-none d-sm-inline"> Cart</span>
+                            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                                @ViewBag.CartCount
+                            </span>
+                        </a>
+                    </li>
+
+                    <!-- Login/Logout (Partial View) -->
+                    <li class="nav-item">
+                        @Html.Partial("_LoginPartial")
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -69,16 +76,15 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script>
-    jQuery.validator.methods.number = function (value, element) {
-        value = value.replace(',', '.'); // Convert comma to dot before validation
-        return this.optional(element) || !isNaN(parseFloat(value)) && isFinite(value);
-    };
+        jQuery.validator.methods.number = function (value, element) {
+            value = value.replace(',', '.'); // Convert comma to dot before validation
+            return this.optional(element) || !isNaN(parseFloat(value)) && isFinite(value);
+        };
     </script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Bootstrap JS (required for carousel) -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

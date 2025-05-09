@@ -1,16 +1,16 @@
 ﻿@using System.Web.DynamicData
 @model TimeWarpGames.Entities.Console
 
+<!-- Foutmeldingen tonen -->
 @if (TempData["Error"] != null)
 {
-	<div class="alert alert-danger">
-		@TempData["Error"]
-	</div>
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
 }
 
-
 @{
-    ViewBag.Title = "Console Details";
+    ViewBag.Title = "Console Details";  // Titel van de pagina
 }
 
 <div class="container mt-5">
@@ -18,19 +18,20 @@
         <div class="row g-4">
             <!-- Left: Console Image -->
             <div class="col-md-4 text-center">
+                <!-- Console afbeelding tonen -->
                 <img src="~/Content/Images/ConsolePics/@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
             </div>
 
             <!-- Right: Console Details -->
             <div class="col-md-8 d-flex flex-column justify-content-between">
                 <div>
-                    <!-- Name -->
+                    <!-- Naam van de console -->
                     <h2 class="fw-bold text-light">@Model.Name</h2>
 
-                    <!-- Description -->
+                    <!-- Beschrijving van de console -->
                     <p class="text-secondary small mb-4">@Model.Description</p>
 
-                    <!-- Brand + Model -->
+                    <!-- Merk en Model -->
                     <div class="row mb-3">
                         <div class="col-sm-6">
                             <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
@@ -40,7 +41,7 @@
                         </div>
                     </div>
 
-                    <!-- State + IsBoxed -->
+                    <!-- Staat en of het in de doos zit -->
                     <div class="row mb-3">
                         <div class="col-sm-6">
                             <strong>State:</strong> @Model.State.ToString()
@@ -55,47 +56,45 @@
                         <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
                     </div>
 
-                    <!-- Price -->
+                    <!-- Prijs van de console -->
                     <div class="mb-4">
-	                    <span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
+                        <span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
                     </div>
 
-                    <!-- Stock -->
+                    <!-- Voorraad -->
                     <div class="mb-3">
-	                    <strong>Voorraad:</strong> @Model.Stock
+                        <strong>Voorraad:</strong> @Model.Stock
                     </div>
                 </div>
 
-                <!-- Bottom Right Add to Cart -->
-                <!--Enkel zichtbaar als user is aangemeld-->
-
+                <!-- Bottom Right Add to Cart Button -->
+                <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
                 @if (User.Identity.IsAuthenticated)
                 {
-	                <div class="d-flex justify-content-end">
-                        
-		                <!-- De "toevoegen aan winkelmandje" knop is een form die direct de product-id meegeeft-->
-                        <!-- aan de ShoppingCartController -->
-		                <form id="addToCart" asp-controller="ShoppingCart" asp-action="Add" method="post">
-			                <input type="hidden" name="productId" value="@Model.ProductId"/>
-			                <button class="btn btn-primary px-4">
-				                <i class="bi bi-cart-plus me-1"></i> Add to Cart
-			                </button>
-		                </form>
-		                </div>
+                    <div class="d-flex justify-content-end">
+                        <!-- Formulier om het product toe te voegen aan de winkelwagen -->
+                        <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <button class="btn btn-primary px-4">
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
                 }
             </div>
         </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <!--Enkel zichtbaar als user is aangemeld-->
-
-    
+    <!-- Navigatieknoppen onderaan de pagina -->
+    <!-- Alleen zichtbaar voor StoreManager (indien ingelogd met de juiste rol) -->
     <div class="mt-4">
-	    @if (User.IsInRole("StoreManager"))
-	    {
-		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-	    }
-	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+        @if (User.IsInRole("StoreManager"))
+        {
+            <!-- Link om het product te bewerken (alleen voor StoreManager) -->
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+        }
+
+        <!-- Link om terug te gaan naar de productlijst -->
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
     </div>
 </div>

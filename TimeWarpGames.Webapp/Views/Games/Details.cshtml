@@ -2,11 +2,10 @@
 
 @if (TempData["Error"] != null)
 {
-	<div class="alert alert-danger">
-		@TempData["Error"]
-	</div>
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
 }
-
 
 @{
     ViewBag.Title = "Game Details";
@@ -49,7 +48,7 @@
                             <strong>Developer:</strong> @Model.Developer
                         </div>
                         <div class="col-sm-6">
-                            <strong>Leeftijd:</strong> @Model.AgeRating+
+                            <strong>Leeftijd:</strong> @Model.AgeRating
                         </div>
                     </div>
 
@@ -67,17 +66,24 @@
                     <div class="mb-4">
                         <span class="fs-4 fw-bold text-success">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
                     </div>
+
+                    <!-- Stock Information -->
+                    <div class="mb-4">
+                        <strong>Voorraad:</strong> @Model.Stock
+                    </div>
                 </div>
 
                 <!-- Bottom Right Add to Cart -->
-                <!--Enkel zichtbaar als user is aangemeld-->
-
+                <!-- Enkel zichtbaar als user is aangemeld-->
                 @if (User.Identity.IsAuthenticated)
                 {
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-success px-4">
-                            <i class="bi bi-cart-plus me-1"></i> Add to Cart
-                        </button>
+                        <form id="addToCart" asp-controller="ShoppingCart" asp-action="Add" method="post">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <button class="btn btn-success px-4">
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button>
+                        </form>
                     </div>
                 }
             </div>
@@ -85,15 +91,13 @@
     </div>
 
     <!-- Navigation Buttons -->
-    <!--Enkel zichtbaar als user is aangemeld-->
-
-    
+    <!-- Enkel zichtbaar als user is aangemeld-->
     <div class="mt-4">
-	    @if (User.IsInRole("StoreManager"))
-	    {
-		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-	    }
-	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+        @if (User.IsInRole("StoreManager"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+        }
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
     </div>
-    
+
 </div>
