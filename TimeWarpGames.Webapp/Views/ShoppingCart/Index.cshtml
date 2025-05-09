@@ -1,0 +1,15 @@
+﻿@foreach (var item in Model)
+{
+	<tr>
+		<td>@item.Name</td>
+		<td>
+			<form asp-action="UpdateQuantity" method="post" class="d-flex">
+				<input type="hidden" name="productId" value="@item.ProductId" />
+				<input type="number" name="quantity" value="@item.Quantity" min="1" max="@item.MaxAllowed" class="form-control me-2" />
+				<button type="submit" class="btn btn-sm btn-primary">Update</button>
+			</form>
+		</td>
+		<td>@item.Price.ToString("C")</td>
+		<td>@item.TotalPrice.ToString("C")</td>
+	</tr>
+}

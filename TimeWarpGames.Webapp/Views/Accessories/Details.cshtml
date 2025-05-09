@@ -1,5 +1,13 @@
 ﻿@model TimeWarpGames.Entities.Accessory
 
+@if (TempData["Error"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["Error"]
+	</div>
+}
+
+
 @{
     ViewBag.Title = "Accessory Details";
 }
@@ -55,6 +63,9 @@
                 {
 	                <div class="d-flex justify-content-between align-items-center mt-4">
 		                <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
+		                <div class="mb-3">
+			                <strong>Voorraad:</strong> @Model.Stock
+		                </div>
 		                <button class="btn btn-outline-primary px-4">
 			                <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
 		                </button>

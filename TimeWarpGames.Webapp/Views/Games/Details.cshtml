@@ -1,5 +1,13 @@
 ﻿@model TimeWarpGames.Entities.Game
 
+@if (TempData["Error"] != null)
+{
+	<div class="alert alert-danger">
+		@TempData["Error"]
+	</div>
+}
+
+
 @{
     ViewBag.Title = "Game Details";
 }

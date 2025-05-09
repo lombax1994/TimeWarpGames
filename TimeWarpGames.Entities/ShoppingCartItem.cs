@@ -7,6 +7,7 @@
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice => Quantity * Price;
+        public int MaxAllowed { get; set; } 
 
         public ShoppingCartItem(int productId, string name, int quantity, decimal price)
         {
