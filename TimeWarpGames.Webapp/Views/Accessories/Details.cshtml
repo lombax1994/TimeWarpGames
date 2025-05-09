@@ -56,35 +56,33 @@
                 </div>
 
                 <!-- Bottom: Price and Add to Cart -->
-                <!-- Enkel zichtbaar als user is aangemeld-->
+                <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="d-flex justify-content-between align-items-center mt-4">
-                        <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
-                        <div class="mb-3">
-                            <strong>Voorraad:</strong> @Model.Stock
-                        </div>
-
-                        <!-- Formulier voor het toevoegen van de accessory aan de winkelwagen -->
-                        <form id="addToCart" asp-controller="ShoppingCart" asp-action="Add" method="post">
-                            <input type="hidden" name="productId" value="@Model.ProductId" />
-                            <button class="btn btn-outline-primary px-4">
-                                <i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
-                            </button>
-                        </form>
-                    </div>
+	                <div class="d-flex justify-content-end">
+		                <!-- Formulier om het product toe te voegen aan de winkelwagen -->
+		                <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
+			                <input type="hidden" name="productId" value="@Model.ProductId" />
+			                <button class="btn btn-primary px-4">
+				                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+			                </button>
+		                </form>
+	                </div>
                 }
             </div>
         </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <!-- Enkel zichtbaar als user is aangemeld-->
+    <!-- Navigatieknoppen onderaan de pagina -->
+    <!-- Alleen zichtbaar voor StoreManager (indien ingelogd met de juiste rol) -->
     <div class="mt-4">
-        @if (User.IsInRole("StoreManager"))
-        {
-            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-secondary me-2" })
-        }
-        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+	    @if (User.IsInRole("StoreManager"))
+	    {
+		    <!-- Link om het product te bewerken (alleen voor StoreManager) -->
+		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+	    }
+
+	    <!-- Link om terug te gaan naar de productlijst -->
+	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
     </div>
 </div>

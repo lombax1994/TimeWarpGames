@@ -98,6 +98,28 @@ public class ShoppingCartController : Controller
         return RedirectToAction("Index");
     }
 
+    [HttpPost]
+    [Authorize]
+    public ActionResult Remove(int productId)
+    {
+        // Haal de winkelwagen op uit de sessie
+        var cart = GetCart();
+
+        // Zoek het item in de winkelwagen
+        var itemToRemove = cart.FirstOrDefault(i => i.ProductId == productId);
+
+        if (itemToRemove != null)
+        {
+            // Verwijder het item uit de winkelwagen
+            cart.Remove(itemToRemove);
+            // Bewaar de bijgewerkte winkelwagen
+            SaveCart(cart);
+        }
+
+        // Redirect naar de winkelwagen indexpagina na verwijderen
+        return RedirectToAction("Index");
+    }
+
     // Helper methods for managing cart
 
     // Haal de winkelwagen op uit de sessie, maak deze aan als hij niet bestaat
