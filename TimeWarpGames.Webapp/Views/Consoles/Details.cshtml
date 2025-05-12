@@ -14,78 +14,79 @@
 }
 
 <div class="container mt-5">
-    <div class="card shadow rounded-4 p-4">
-        <div class="row g-4">
-            <!-- Left: Console Image -->
-            <div class="col-md-4 text-center">
-                <!-- Console afbeelding tonen -->
-                <img src="~/Content/Images/ConsolePics/@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
-            </div>
+	<div class="card shadow rounded-4 p-4">
+		<div class="row g-4">
+			<!-- Left: Console Image -->
+			<div class="col-md-4 text-center">
+				<!-- Console afbeelding tonen -->
+				<img src="~/Content/Images/ConsolePics/@Model.Image" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-height: 300px;" />
+			</div>
 
-            <!-- Right: Console Details -->
-            <div class="col-md-8 d-flex flex-column justify-content-between">
-                <div>
-                    <!-- Naam van de console -->
-                    <h2 class="fw-bold text-light">@Model.Name</h2>
+			<!-- Right: Console Details -->
+			<div class="col-md-8 d-flex flex-column justify-content-between">
+				<div>
+					<!-- Naam van de console -->
+					<h2 class="fw-bold text-light">@Model.Name</h2>
 
-                    <!-- Beschrijving van de console -->
-                    <p class="text-secondary small mb-4">@Model.Description</p>
+					<!-- Beschrijving van de console -->
+					<p class="text-secondary small mb-4">@Model.Description</p>
 
-                    <!-- Merk en Model -->
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
-                            <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
-                        </div>
-                        <div class="col-sm-6">
-                            <strong>Model:</strong> @Html.DisplayFor(m => m.Model)
-                        </div>
-                    </div>
+					<!-- Merk en Model -->
+					<div class="row mb-3">
+						<div class="col-sm-6">
+							<strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
+						</div>
+						<div class="col-sm-6">
+							<strong>Model:</strong> @Html.DisplayFor(m => m.Model)
+						</div>
+					</div>
 
-                    <!-- Staat en of het in de doos zit -->
-                    <div class="row mb-3">
-                        <div class="col-sm-6">
-                            <strong>State:</strong> @Model.State.ToString()
-                        </div>
-                        <div class="col-sm-6">
-                            <strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
-                        </div>
-                    </div>
+					<!-- Staat en of het in de doos zit -->
+					<div class="row mb-3">
+						<div class="col-sm-6">
+							<strong>State:</strong> @Model.State.ToString()
+						</div>
+						<div class="col-sm-6">
+							<strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
+						</div>
+					</div>
 
-                    <!-- Release Date -->
-                    <div class="mb-3">
-                        <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
-                    </div>
+					<!-- Release Date -->
+					<div class="mb-3">
+						<strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+					</div>
 
-                    <!-- Prijs van de console -->
-                    <div class="mb-4">
-                        <span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
-                    </div>
+					<!-- Prijs van de console -->
+					<div class="mb-4">
+						<span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
+					</div>
 
-                    <!-- Voorraad -->
-                    <div class="mb-3">
-                        <strong>Voorraad:</strong> @Model.Stock
-                    </div>
-                </div>
+					<!-- Voorraad -->
+					<div class="mb-3">
+						<strong>Voorraad:</strong> @Model.Stock
+					</div>
+				</div>
 
-                <!-- Bottom Right Add to Cart Button -->
-                <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="d-flex justify-content-end">
-                        <!-- Formulier om het product toe te voegen aan de winkelwagen -->
-                        <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
-                            <input type="hidden" name="productId" value="@Model.ProductId" />
-                            <button class="btn btn-primary px-4">
-                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
-                            </button>
-                        </form>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigatieknoppen onderaan de pagina -->
+				<!-- Bottom Right Add to Cart Button -->
+				<!-- Alleen zichtbaar als de gebruiker is ingelogd -->
+				@if (User.Identity.IsAuthenticated)
+				{
+					<div class="d-flex justify-content-end">
+						<!-- Formulier om het product toe te voegen aan de winkelwagen -->
+						<form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
+							<input type="hidden" name="productId" value="@Model.ProductId" />
+							<button class="btn btn-primary px-4">
+								<i class="bi bi-cart-plus me-1"></i> Add to Cart
+							</button>
+						</form>
+					</div>
+				}
+			</div>
+		</div>
+	</div>
+    
+	
+	<!-- Navigatieknoppen onderaan de pagina -->
     <!-- Alleen zichtbaar voor StoreManager (indien ingelogd met de juiste rol) -->
     <div class="mt-4">
         @if (User.IsInRole("StoreManager"))

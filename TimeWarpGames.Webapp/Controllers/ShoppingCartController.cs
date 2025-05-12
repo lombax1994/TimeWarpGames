@@ -27,7 +27,7 @@ public class ShoppingCartController : Controller
         // Zoek het product op basis van de meegegeven productId
         var product = ProductBll.ReadAll().FirstOrDefault(p => p.ProductId == productId);
         if (product == null)
-            return HttpNotFound(); // Als het product niet gevonden is, geef een 404 fout
+            return HttpNotFound();
 
         // Haal de huidige winkelwagen op
         var cart = GetCart();
@@ -37,32 +37,26 @@ public class ShoppingCartController : Controller
 
         if (existingItem != null)
         {
-            // Als het product al in de winkelwagen zit, verhoog de hoeveelheid
             if (existingItem.Quantity >= existingItem.Stock)
             {
-                TempData["Error"] = "Niet genoeg voorraad beschikbaar."; // Geef foutmelding bij onvoldoende voorraad
-                return RedirectToProductDetails(product); // Redirect naar de productdetailpagina
+                TempData["Error"] = "Niet genoeg voorraad beschikbaar.";
+                return RedirectToProductDetails(product);
             }
 
-            existingItem.Quantity++; // Verhoog de hoeveelheid van het product in de winkelwagen
+            existingItem.Quantity++;
         }
         else
         {
-            // Als het product nog niet in de winkelwagen zit, voeg het toe
             if (product.Stock < 1)
             {
-                TempData["Error"] = "Niet op voorraad."; // Foutmelding als het product niet op voorraad is
-                return RedirectToProductDetails(product); // Redirect naar de productdetailpagina
+                TempData["Error"] = "Niet op voorraad.";
+                return RedirectToProductDetails(product);
             }
 
-            // Voeg het product toe aan de winkelwagen, met de voorraad van het product
             cart.Add(new ShoppingCartItem(product.ProductId, product.Name, 1, product.Price, product.Stock));
         }
 
-        // Sla de winkelwagen op in de sessie
         SaveCart(cart);
-
-        // Redirect de gebruiker terug naar de productdetailpagina
         return RedirectToProductDetails(product);
     }
 
