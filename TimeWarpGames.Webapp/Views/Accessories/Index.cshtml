@@ -7,7 +7,7 @@
 <!-- Create Button (top right corner) -->
 <!--Enkel zichtbaar als user is aangemeld-->
 
-@if (User.Identity.IsAuthenticated)
+@if (User.IsInRole("StoreManager"))
 {
 	<div class="text-right mb-3">
 		@Html.ActionLink("Accessoire toevoegen", "Create", null, new { @class = "btn btn-primary" })
@@ -20,7 +20,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <!-- 4 items per row on large screens, 3 on medium, 2 on small -->
                 <div class="card">
-                    <img src="~/Content/Images/AccessoryPics/@item.Image" class="card-img-top" alt="Image for @item.Name">
+                    <img src="~/Content/Images/AccessoryPics/@item.Image" class="card-img-top" alt="Image for @item.Name" style="object-fit:contain">
                     <div class="card-body">
                         <h5 class="card-title">@item.Name</h5>
                         <p class="card-text">@item.Price.ToString("C")</p>
@@ -32,7 +32,7 @@
                         <!-- Edit and Delete buttons side by side -->
                         <!-- Enkel zichtbaar als de user is aangemeld -->
 
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.IsInRole("StoreManager"))
                         {
                             <div class="d-flex justify-content-between">
                                 <a href="@Url.Action("Edit", new { id = item.ProductId })" class="btn btn-warning btn-sm">Edit</a>

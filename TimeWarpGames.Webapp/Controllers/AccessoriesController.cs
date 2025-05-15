@@ -10,7 +10,7 @@ using TimeWarpGames.Webapp.Models;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
-    public class AccessoriesController : Controller
+    public class AccessoriesController : BaseController
     {
         public ActionResult Index()
         {

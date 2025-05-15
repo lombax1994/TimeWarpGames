@@ -46,8 +46,8 @@
                                 <button type="submit" class="btn btn-primary btn-sm mt-2">Update</button>
                             </form>
                         </td>
-                        <td>@item.Price</td> <!-- Toon de prijs van het product -->
-                        <td>@(item.Quantity * item.Price)</td> <!-- Toon de totale prijs voor dit item -->
+                        <td>€@item.Price</td> <!-- Toon de prijs van het product -->
+                        <td>€@(item.Quantity * item.Price)</td> <!-- Toon de totale prijs voor dit item -->
                         <td>
                             <!-- Formulier om het item te verwijderen uit de winkelwagen -->
                             <form action="@Url.Action("Remove", "ShoppingCart")" method="post">

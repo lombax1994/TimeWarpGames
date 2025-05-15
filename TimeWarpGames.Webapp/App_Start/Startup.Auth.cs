@@ -63,12 +63,6 @@ namespace TimeWarpGames.Webapp
             //    ClientId = "",
             //    ClientSecret = ""
             //});
-
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "497702362777-k9fmmprik7h366mov5d6f83j44i8s8kg.apps.googleusercontent.com",
-                ClientSecret = "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"
-            });
         }
 
         

@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TimeWarpGames.Bll;
 using Console = TimeWarpGames.Entities.Console;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
-    public class ConsolesController : Controller
+    public class ConsolesController : BaseController
     {
         // GET: Consoles
         public ActionResult Index()
@@ -73,7 +74,16 @@ namespace TimeWarpGames.Webapp.Controllers
         {
             try
             {
-                Console console = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+                var console = TimeWarpGames.Bll.ConsoleBll.ReadOne(id);
+
+                var cartBll = new TimeWarpGames.Bll.ShoppingCartBll(Session);
+                int quantityInCart = cartBll.GetQuantityInCart(console.ProductId);
+
+                int availableStock = console.Stock - quantityInCart;
+                if (availableStock < 0) availableStock = 0;
+
+                ViewBag.ActueleVoorraad = availableStock;
+
                 return View(console);
             }
             catch (Exception ex)
@@ -82,6 +92,8 @@ namespace TimeWarpGames.Webapp.Controllers
                 return View("Error");
             }
         }
+
+
 
         [Authorize(Roles = "StoreManager")]
         public ActionResult Delete(int id)

@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using TimeWarpGames.Bll;
 using TimeWarpGames.Entities;
 
-public class ShoppingCartController : Controller
+public class ShoppingCartController : BaseController
 {
     // GET: ShoppingCart - We tonen de inhoud van het winkelwagentje.
     public ActionResult Index()
@@ -146,4 +146,7 @@ public class ShoppingCartController : Controller
 
         return RedirectToAction("Index", "Home"); // fallback naar Home pagina
     }
+
+    
+
 }

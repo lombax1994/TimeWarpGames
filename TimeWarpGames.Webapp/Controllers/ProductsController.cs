@@ -7,7 +7,7 @@ using TimeWarpGames.Entities;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         // GET: Products
         public ActionResult Index()

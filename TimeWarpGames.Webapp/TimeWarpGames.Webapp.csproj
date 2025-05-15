@@ -164,6 +164,7 @@
     <Compile Include="Binders\FlexibleDecimalModelBinder.cs" />
     <Compile Include="Controllers\AccessoriesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CartCounterController.cs" />
     <Compile Include="Controllers\ConsolesController.cs" />
     <Compile Include="Controllers\GamesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -279,6 +280,7 @@
     <Folder Include="Content\Images\AccessoryPics\" />
     <Folder Include="Content\Images\ConsolePics\" />
     <Folder Include="Content\Images\GamePics\" />
+    <Folder Include="Views\CartCounter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

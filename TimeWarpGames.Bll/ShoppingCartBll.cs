@@ -87,5 +87,12 @@ namespace TimeWarpGames.Bll
             var cart = GetCart();
             return cart.Sum(item => item.Quantity);
         }
+
+        public int GetQuantityInCart(int productId)
+        {
+            var cart = GetCart();
+            var item = cart.FirstOrDefault(i => i.ProductId == productId);
+            return item?.Quantity ?? 0;
+        }
     }
 }

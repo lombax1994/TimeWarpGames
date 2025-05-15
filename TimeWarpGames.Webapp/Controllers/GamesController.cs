@@ -12,7 +12,7 @@ using TimeWarpGames.Entities;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
-    public class GamesController : Controller
+    public class GamesController : BaseController
     {
         //met de index methode maken we een lijst van games aan om weer te geven in de view
         public ActionResult Index()
@@ -78,19 +78,27 @@ namespace TimeWarpGames.Webapp.Controllers
         //Met de details methode maken we een view van een game aan
         public ActionResult Details(int id)
         {
-            //We vragen de game op bij de bll
             try
             {
-                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
+                var game = GameBll.ReadOne(id);
+
+                var cartBll = new ShoppingCartBll(Session);
+                int quantityInCart = cartBll.GetQuantityInCart(game.ProductId);
+
+                int availableStock = game.Stock - quantityInCart;
+                if (availableStock < 0) availableStock = 0;
+
+                ViewBag.ActueleVoorraad = availableStock;
+
                 return View(game);
             }
-            //Als er problemen zijn dan gaan we naar de errorpagina.
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "Er is een fout opgetreden bij het ophalen van de spelgegevens.";
+                ViewBag.ErrorMessage = ex.Message;
                 return View("Error");
             }
         }
+
 
         //Met de delete methode maken we een view van een game aan
         //Hier kunnen we de game verwijderen
