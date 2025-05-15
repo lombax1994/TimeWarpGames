@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TimeWarpGames.Bll;
 using TimeWarpGames.Entities;
-using TimeWarpGames.Webapp.Models;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
     public class AccessoriesController : BaseController
     {
+        // GET: Accessories
         public ActionResult Index()
         {
             try
@@ -21,44 +20,45 @@ namespace TimeWarpGames.Webapp.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = ex.Message;
+                ViewBag.ErrorMessage = "Er werden geen accessoires gevonden.";
                 return View("Error");
             }
         }
 
-        [Authorize(Roles="StoreManager")]
+        [Authorize(Roles = "StoreManager")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description, decimal Price,
-            int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
+        public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
+            decimal Price, int Stock, string Brand, Platform Platform, AccessoryType Type, State State)
         {
-            string ImageName = "placeholder.png";
+            string ImageName = "~/Content/Images/placeholder.png";
 
             if (Image != null)
             {
                 if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
                 {
                     string pathToSave = Server.MapPath("~/Content/Images/AccessoryPics/");
-                    string pictureExtension = Path.GetExtension(Image.FileName);
-                    ImageName = Name + pictureExtension;
+                    string extension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + extension;
                     pathToSave += ImageName;
                     Image.SaveAs(pathToSave);
                 }
             }
 
-            bool accessoryCreated = AccessoryBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock, Brand,
-                Platform, Type, State);
+            bool accessoryCreated = AccessoryBll.Create(Name, IsBoxed, ImageName, Description, Price,
+                Stock, Brand, Platform, Type, State);
+
             if (accessoryCreated)
             {
-                ViewBag.Feedback = Name + " is toegevoegd";
+                ViewBag.Feedback = Name + " is toegevoegd.";
             }
             else
             {
-                ViewBag.Feedback = "Accessoire toevoegen is mislukt";
+                ViewBag.Feedback = "Accessoire kon niet toegevoegd worden.";
             }
 
             return View();
@@ -69,6 +69,15 @@ namespace TimeWarpGames.Webapp.Controllers
             try
             {
                 Accessory accessory = AccessoryBll.ReadOne(id);
+
+                var cartBll = new ShoppingCartBll(Session);
+                int quantityInCart = cartBll.GetQuantityInCart(accessory.ProductId);
+
+                int availableStock = accessory.Stock - quantityInCart;
+                if (availableStock < 0) availableStock = 0;
+
+                ViewBag.ActueleVoorraad = availableStock;
+
                 return View(accessory);
             }
             catch (Exception ex)
@@ -96,18 +105,17 @@ namespace TimeWarpGames.Webapp.Controllers
         [HttpPost]
         public ActionResult Delete(string id)
         {
-            
-                int accessoryId = Convert.ToInt32(id);
-                bool accessoryDeleted = AccessoryBll.Delete(accessoryId);
-                if (accessoryDeleted)
-                {
-                    TempData["Feedback"] = "Accessoire is verwijderd";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View("Error");
-                }
+            int accessoryId = Convert.ToInt32(id);
+            bool accessoryDeleted = AccessoryBll.Delete(accessoryId);
+            if (accessoryDeleted)
+            {
+                TempData["Feedback"] = "Accessoire is verwijderd.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View("Error");
+            }
         }
 
         [Authorize(Roles = "StoreManager")]
@@ -116,6 +124,11 @@ namespace TimeWarpGames.Webapp.Controllers
             try
             {
                 Accessory accessory = AccessoryBll.ReadOne(id);
+                if (accessory == null)
+                {
+                    return View("Error");
+                }
+
                 return View(accessory);
             }
             catch (Exception ex)
@@ -123,7 +136,6 @@ namespace TimeWarpGames.Webapp.Controllers
                 ViewBag.ErrorMessage = ex.Message;
                 return View("Error");
             }
-
         }
 
         [HttpPost]
@@ -145,28 +157,26 @@ namespace TimeWarpGames.Webapp.Controllers
                 if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
                 {
                     string pathToSave = Server.MapPath("~/Content/Images/AccessoryPics/");
-                    string pictureExtension = Path.GetExtension(Image.FileName);
-                    ImageName = Guid.NewGuid() + pictureExtension;
+                    string extension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + extension;
                     pathToSave += ImageName;
                     Image.SaveAs(pathToSave);
                 }
             }
 
-            bool accessoryUpdated = AccessoryBll.Update(id, Name, IsBoxed, ImageName, Description, Price, Stock, Brand,
-                Platform, Type, State);
+            bool accessoryUpdated = AccessoryBll.Update(id, Name, IsBoxed, ImageName, Description,
+                Price, Stock, Brand, Platform, Type, State);
+
             if (accessoryUpdated)
             {
-                TempData["Feedback"] = Name + " is aangepast";
-               
+                TempData["Feedback"] = Name + " is bijgewerkt.";
             }
             else
             {
-                TempData["Feedback"] = "Accessoire aanpassen is mislukt";
-              
+                TempData["Feedback"] = "Accessoire kon niet bijgewerkt worden.";
             }
 
             return RedirectToAction("Details", new { id = id });
-
         }
     }
 }

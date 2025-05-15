@@ -13,7 +13,7 @@
 
 <div class="container mt-5">
     <div class="card shadow rounded-4 p-4">
-        <div class="row g-4 align-items-start">
+        <div class="row g-4">
             <!-- Image -->
             <div class="col-md-4 text-center">
                 <img src="~/Content/Images/AccessoryPics/@Model.Image"
@@ -26,63 +26,128 @@
             <!-- Text Content -->
             <div class="col-md-8 d-flex flex-column justify-content-between">
                 <div>
-                    <!-- Name and Description -->
-                    <h2 class="fw-bold">@Model.Name</h2>
-                    <p class="text-secondary small mb-3">@Model.Description</p>
+                    <!-- naam van het accessoire -->
+                    <h2 class="fw-bold text-light">@Model.Name</h2>
 
-                    <!-- Two Column Labels -->
-                    <div class="row">
-                        <div class="col-6 mb-2">
-                            <div><strong>Brand:</strong> @Model.Brand</div>
-                            <div><strong>Type:</strong> @Model.Type</div>
-                            <div><strong>Stock:</strong> @Model.Stock</div> <!-- Voorraad toegevoegd -->
+                    <!-- Beschrijving van het accessoire -->
+                    <p class="text-secondary small mb-4">@Model.Description</p>
+
+                    <!-- Merk en platform -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
                         </div>
-                        <div class="col-6 mb-2">
-                            <div><strong>Platform:</strong> @Model.Platform</div>
-                            <div><strong>State:</strong> @Model.State</div>
-                            <div>
-                                <strong>Boxed:</strong>
-                                @if (Model.IsBoxed)
-                                {
-                                    <i class="fa-solid fa-check text-success"></i>
-                                }
-                                else
-                                {
-                                    <i class="fa-solid fa-xmark text-danger"></i>
-                                }
-                            </div>
+                        <div class="col-sm-6">
+                            <strong>Platform:</strong>  @Html.DisplayFor(m => m.Platform)
                         </div>
+                    </div>
+
+                    <!-- Type accessoire en staat -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>Type:</strong> @Html.DisplayFor(m => m.Type)
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>State:</strong>  @Html.DisplayFor(m => m.State)
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-3">
+                        <span class="fs-4 fw-bold">@Model.Price.ToString("C", System.Globalization.CultureInfo.CurrentCulture)</span>
+                    </div>
+
+                    <!-- Voorraad -->
+                    <div class="mb-3">
+	                    <strong>Voorraad:</strong> @ViewBag.ActueleVoorraad
                     </div>
                 </div>
 
-                <!-- Bottom: Price and Add to Cart -->
+                <!-- Bottom Right Add to Cart Button -->
                 <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("StoreManager") && !User.IsInRole("SuperAdmin") )
                 {
-	                <div class="d-flex justify-content-end">
-		                <!-- Formulier om het product toe te voegen aan de winkelwagen -->
-		                <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
-			                <input type="hidden" name="productId" value="@Model.ProductId" />
-			                <button class="btn btn-primary px-4">
-				                <i class="bi bi-cart-plus me-1"></i> Add to Cart
-			                </button>
-		                </form>
-	                </div>
+                    <div class="d-flex justify-content-end">
+                        <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
                 }
             </div>
         </div>
     </div>
 
     <!-- Navigatieknoppen onderaan de pagina -->
-    <!-- Alleen zichtbaar voor StoreManager (indien ingelogd met de juiste rol) -->
     <div class="mt-4">
-	    @if (User.IsInRole("StoreManager"))
-	    {
-		    <!-- Link om het product te bewerken (alleen voor StoreManager) -->
-		    @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
-	    }
-
-	    <!-- Link om terug te gaan naar de productlijst -->
-	    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
+        @if (User.IsInRole("StoreManager"))
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-light me-2" })
+        }
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
     </div>
 </div>
+
+<!-- Add to Cart Confirmation Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-4">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
+			</div>
+			<div class="modal-body text-center">
+				<a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
+			</div>
+			<div class="modal-footer justify-content-center">
+				<p>Klik buiten dit vak om verder te winkelen.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("addToCart").addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const form = this;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) throw response;
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            const modal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+                            modal.show();
+                        } else {
+                            alert(data.message || "Kan niet toevoegen aan winkelmandje.");
+                        }
+                    })
+                    .catch(async error => {
+                        let message = "Technische fout bij het toevoegen aan winkelmandje.";
+                        if (error.json) {
+                            const err = await error.json();
+                            message = err.message || message;
+                        } else {
+                            message = await error.text();
+                        }
+                        alert(message);
+                    });
+            });
+        });
+    </script>
+}

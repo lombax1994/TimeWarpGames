@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Services.Description;
 using TimeWarpGames.Bll;
 using TimeWarpGames.Entities;
 
@@ -14,18 +10,15 @@ namespace TimeWarpGames.Webapp.Controllers
 {
     public class GamesController : BaseController
     {
-        //met de index methode maken we een lijst van games aan om weer te geven in de view
         public ActionResult Index()
         {
             try
             {
-                //We vragen de games op bij de bll
-                List<Game> lstGames = TimeWarpGames.Bll.GameBll.ReadAll();
+                List<Game> lstGames = GameBll.ReadAll();
                 return View(lstGames);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //Als er problemen zijn dan gaan we naar de errorpagina.
                 ViewBag.ErrorMessage = "Er is een fout opgetreden bij het ophalen van de spellen.";
                 return View("Error");
             }
@@ -34,53 +27,48 @@ namespace TimeWarpGames.Webapp.Controllers
         [Authorize(Roles = "StoreManager")]
         public ActionResult Create()
         {
-            // Deze create methode maakt enkel de Create view aan, hier kunnen we gegevens invullen
             return View();
         }
 
-
-        //Dit is de effectieve create methode
-        //Hier worden de gegevens die we hebben ingevuld in de create view naar de database gestuurd
         [HttpPost]
         public ActionResult Create(string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
-            decimal Price,
-            int Stock,
-            Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
+            decimal Price, int Stock, Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
         {
             string ImageName = "~/Content/Images/placeholder.png";
 
             if (Image != null)
             {
-                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image.png")
+                if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
                 {
                     string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
-                    string ImageExtension = Path.GetExtension(Image.FileName);
-                    ImageName = Guid.NewGuid() + ImageExtension;
-                    pathToSave += ImageName;
-                    Image.SaveAs(pathToSave);
+                    string extension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + extension;
+                    string fullPath = Path.Combine(pathToSave, ImageName);
+                    Image.SaveAs(fullPath);
                 }
             }
 
-            bool memberCreated = TimeWarpGames.Bll.GameBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
+            bool gameCreated = GameBll.Create(Name, IsBoxed, ImageName, Description, Price, Stock,
                 Platform, Genre, Developer, ReleaseDate, AgeRating);
-            if (memberCreated)
+
+            if (gameCreated)
             {
-                ViewBag.Feedback = Name + " is aangemaakt";
+                TempData["Feedback"] = $"{Name} is aangemaakt.";
+                return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.Feedback = "Aanmaken van spel is niet gelukt";
+                ViewBag.Feedback = "Aanmaken van spel is niet gelukt.";
+                return View();
             }
-
-            return View();
         }
 
-        //Met de details methode maken we een view van een game aan
         public ActionResult Details(int id)
         {
             try
             {
                 var game = GameBll.ReadOne(id);
+                if (game == null) return View("Error");
 
                 var cartBll = new ShoppingCartBll(Session);
                 int quantityInCart = cartBll.GetQuantityInCart(game.ProductId);
@@ -99,15 +87,14 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
-
-        //Met de delete methode maken we een view van een game aan
-        //Hier kunnen we de game verwijderen
         [Authorize(Roles = "StoreManager")]
         public ActionResult Delete(int id)
         {
             try
             {
-                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
+                var game = GameBll.ReadOne(id);
+                if (game == null) return View("Error");
+
                 return View(game);
             }
             catch (Exception ex)
@@ -117,14 +104,12 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
-
-        //Dit is de effectieve delete methode
-        //Als je op de delete view op de delete knop drukt, dan wordt deze methode aangeroepen
         [HttpPost]
         public ActionResult Delete(string id)
         {
             int gameId = Convert.ToInt32(id);
             bool gameDeleted = GameBll.Delete(gameId);
+
             if (gameDeleted)
             {
                 TempData["Feedback"] = "Game is verwijderd.";
@@ -136,86 +121,57 @@ namespace TimeWarpGames.Webapp.Controllers
             }
         }
 
-        //Hier wordt de edit view aangemaakt
         [Authorize(Roles = "StoreManager")]
         public ActionResult Edit(int id)
         {
             try
             {
-                Game game = TimeWarpGames.Bll.GameBll.ReadOne(id);
-                if (game == null)
-                {
-                    //als er geen spel wordt gevonden gaan we naar de errorpagina
-                    return View("Error");
-                }
+                var game = GameBll.ReadOne(id);
+                if (game == null) return View("Error");
 
-                // We geven de game door aan de view
                 return View(game);
             }
             catch (Exception ex)
             {
-                // Als er nog andere problemen zijn gaan we ook naar de error pagina
                 ViewBag.ErrorMessage = ex.Message;
                 return View("Error");
             }
         }
 
-
-        //dit is de effectieve edit methode
-        //Hier worden de gegevens die we hebben ingevuld in de edit view naar de database gestuurd
-        //Als je op de edit view op de edit knop drukt, dan wordt deze methode aangeroepen
-        //Image is hier geen string maar een HttpPostedFileBase
-        //Dit is een bestand dat we kunnen uploaden
-
         [HttpPost]
         public ActionResult Edit(int id, string Name, bool IsBoxed, HttpPostedFileBase Image, string Description,
             decimal Price, int Stock, Platform Platform, Genre Genre, string Developer, DateTime ReleaseDate, int AgeRating)
         {
-            string ImageName;
+            var existingGame = GameBll.ReadOne(id);
+            if (existingGame == null) return View("Error");
 
-            //We vragen de game op bij de bll
-            Game existingGame = TimeWarpGames.Bll.GameBll.ReadOne(id);
-            if (existingGame == null)
-            {
-                return View("Error"); //Als het spel niet gevonden wordt, gaan we naar de errorpagina
-            }
+            string ImageName = existingGame.Image;
 
-            ImageName = existingGame.Image; // Als de image niet wordt vervangen, behouden we de oude naam
-
-            // Hier controleren we of er een nieuwe afbeelding is geüpload
             if (Image != null)
             {
                 if (Image.ContentType == "image/jpeg" || Image.ContentType == "image/png")
                 {
                     string pathToSave = Server.MapPath("~/Content/Images/GamePics/");
-                    string ImageExtension = Path.GetExtension(Image.FileName);
-                    ImageName = Guid.NewGuid() + ImageExtension;
-                    Image.SaveAs(Path.Combine(pathToSave, ImageName));
+                    string extension = Path.GetExtension(Image.FileName);
+                    ImageName = Guid.NewGuid() + extension;
+                    string fullPath = Path.Combine(pathToSave, ImageName);
+                    Image.SaveAs(fullPath);
                 }
             }
 
-            //Hier geven we de aangepaste gegevens door aan de bll
-            bool gameUpdated = TimeWarpGames.Bll.GameBll.Update(id, Name, IsBoxed, ImageName, Description, Price, Stock,
+            bool gameUpdated = GameBll.Update(id, Name, IsBoxed, ImageName, Description, Price, Stock,
                 Platform, Genre, Developer, ReleaseDate, AgeRating);
 
-            //Hier controleren we of het spel is bijgewerkt
-            //Als het spel is bijgewerkt, geven we een feedback weer
             if (gameUpdated)
             {
-                ViewBag.Feedback = Name + " is bijgewerkt";
+                TempData["Feedback"] = $"{Name} is bijgewerkt.";
+                return RedirectToAction("Details", new { id });
             }
-            //Als het spel niet is bijgewerkt, geven we een feedback weer
             else
             {
-                ViewBag.Feedback = "Bijwerken van spel is niet gelukt";
+                ViewBag.Feedback = "Bijwerken van spel is niet gelukt.";
+                return View(existingGame);
             }
-
-
-            return RedirectToAction("Details", new{id = id}); // Re-fetch and display the updated game
         }
-
-
-
-
     }
 }

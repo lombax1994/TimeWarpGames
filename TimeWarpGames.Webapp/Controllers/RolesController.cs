@@ -10,7 +10,7 @@ using TimeWarpGames.Webapp.Models;
 
 namespace TimeWarpGames.Webapp.Controllers
 {
-    public class RolesController : Controller
+    public class RolesController : BaseController
     {
 
         private ApplicationDbContext db = new ApplicationDbContext();

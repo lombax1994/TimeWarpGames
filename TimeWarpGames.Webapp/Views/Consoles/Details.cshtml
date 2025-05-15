@@ -23,65 +23,66 @@
 			</div>
 
 			<!-- Right: Console Details -->
-			<div class="col-md-8 d-flex flex-column justify-content-between">
-				<div>
-					<!-- Naam van de console -->
-					<h2 class="fw-bold text-light">@Model.Name</h2>
+            <div class="col-md-8 d-flex flex-column justify-content-between">
+                <div>
+                    <!-- Naam van de console -->
+                    <h2 class="fw-bold text-light">@Model.Name</h2>
 
-					<!-- Beschrijving van de console -->
-					<p class="text-secondary small mb-4">@Model.Description</p>
+                    <!-- Beschrijving van de console -->
+                    <p class="text-secondary small mb-4">@Model.Description</p>
 
-					<!-- Merk en Model -->
-					<div class="row mb-3">
-						<div class="col-sm-6">
-							<strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
-						</div>
-						<div class="col-sm-6">
-							<strong>Model:</strong> @Html.DisplayFor(m => m.Model)
-						</div>
-					</div>
+                    <!-- Merk en Model -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>Brand:</strong> @Html.DisplayFor(m => m.Brand)
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Model:</strong> @Html.DisplayFor(m => m.Model)
+                        </div>
+                    </div>
 
-					<!-- Staat en of het in de doos zit -->
-					<div class="row mb-3">
-						<div class="col-sm-6">
-							<strong>State:</strong> @Model.State.ToString()
-						</div>
-						<div class="col-sm-6">
-							<strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
-						</div>
-					</div>
+                    <!-- Staat en of het in de doos zit -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <strong>State:</strong> @Model.State.ToString()
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Boxed:</strong> @Html.DisplayFor(m => m.IsBoxed)
+                        </div>
+                    </div>
 
-					<!-- Release Date -->
-					<div class="mb-3">
-						<strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
-					</div>
+                    <!-- Release Date -->
+                    <div class="mb-3">
+                        <strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")
+                    </div>
 
-					<!-- Prijs van de console -->
-					<div class="mb-4">
-						<span class="fs-4 fw-bold text-success">@Html.DisplayFor(m => m.Price)</span>
-					</div>
+                    <!-- Prijs van de console -->
+                    <div class="mb-4">
+                        <span class="fs-4 fw-bold">@Html.DisplayFor(m => m.Price)</span>
+                    </div>
 
-					<!-- Voorraad -->
+                    <!-- Voorraad -->
                     <div class="mb-3">
                         <strong>Voorraad:</strong> @ViewBag.ActueleVoorraad
                     </div>
-				</div>
+                </div>
 
-				<!-- Bottom Right Add to Cart Button -->
-				<!-- Alleen zichtbaar als de gebruiker is ingelogd -->
-				@if (User.Identity.IsAuthenticated)
-				{
-					<div class="d-flex justify-content-end">
-						<!-- Formulier om het product toe te voegen aan de winkelwagen -->
-						<form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
-							<input type="hidden" name="productId" value="@Model.ProductId" />
-							<button class="btn btn-primary px-4">
-								<i class="bi bi-cart-plus me-1"></i> Add to Cart
-							</button>
-						</form>
-					</div>
-				}
-			</div>
+                <!-- Bottom Right Add to Cart Button -->
+                <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("StoreManager") && !User.IsInRole("SuperAdmin"))
+                {
+                    <div class="d-flex justify-content-end">
+                        <!-- Formulier om het product toe te voegen aan de winkelwagen -->
+                        <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <button type="submit" class="btn btn-primary px-4">
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
 		</div>
 	</div>
     
@@ -99,3 +100,65 @@
         @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-light" })
     </div>
 </div>
+
+
+<!-- Add to Cart Confirmation Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content rounded-4">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
+			</div>
+			<div class="modal-body text-center">
+                <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
+			</div>
+			<div class="modal-footer justify-content-center">
+                <p>Klik buiten dit vak om verder te winkelen.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts {
+	<script>
+        document.getElementById("addToCart").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: "POST",
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'RequestVerificationToken': form.querySelector('input[name="__RequestVerificationToken"]').value
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const modal = new bootstrap.Modal(document.getElementById('addToCartModal'));
+            modal.show();
+        } else {
+            alert(data.message || "Kan niet toevoegen aan winkelmandje.");
+        }
+    })
+    .catch(error => {
+        console.error("Fout:", error);
+        alert("Technische fout bij het toevoegen aan winkelmandje.");
+    });
+});
+
+// Handmatig modal sluiten bij Verder winkelen knop
+        document.querySelector('.btn-secondary[data-bs-dismiss="modal"]').addEventListener('click', function () {
+            var modalElement = document.getElementById('addToCartModal');
+            var modal = bootstrap.Modal.getInstance(modalElement);
+            if (!modal) {
+                modal = new bootstrap.Modal(modalElement);
+            }
+            modal.hide();
+        });
+    </script>
+}

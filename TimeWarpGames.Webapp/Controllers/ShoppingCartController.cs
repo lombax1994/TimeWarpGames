@@ -19,26 +19,29 @@ public class ShoppingCartController : BaseController
         return View(cart); // De winkelwagen wordt weergegeven in de Index view
     }
 
-    // POST: Add item to cart - Deze actie voegt een product toe aan de winkelwagen
     [HttpPost]
-    [Authorize] // Zorgt ervoor dat de gebruiker ingelogd moet zijn om iets toe te voegen
+    [Authorize]
     public ActionResult Add(int productId)
     {
-        // Zoek het product op basis van de meegegeven productId
         var product = ProductBll.ReadAll().FirstOrDefault(p => p.ProductId == productId);
         if (product == null)
+        {
+            if (Request.IsAjaxRequest())
+                return Json(new { success = false, message = "Product niet gevonden." });
+
             return HttpNotFound();
+        }
 
-        // Haal de huidige winkelwagen op
         var cart = GetCart();
-
-        // Zoek of het product al in de winkelwagen zit
         var existingItem = cart.FirstOrDefault(i => i.ProductId == productId);
 
         if (existingItem != null)
         {
             if (existingItem.Quantity >= existingItem.Stock)
             {
+                if (Request.IsAjaxRequest())
+                    return Json(new { success = false, message = "Niet genoeg voorraad beschikbaar." });
+
                 TempData["Error"] = "Niet genoeg voorraad beschikbaar.";
                 return RedirectToProductDetails(product);
             }
@@ -49,6 +52,9 @@ public class ShoppingCartController : BaseController
         {
             if (product.Stock < 1)
             {
+                if (Request.IsAjaxRequest())
+                    return Json(new { success = false, message = "Niet op voorraad." });
+
                 TempData["Error"] = "Niet op voorraad.";
                 return RedirectToProductDetails(product);
             }
@@ -57,6 +63,10 @@ public class ShoppingCartController : BaseController
         }
 
         SaveCart(cart);
+
+        if (Request.IsAjaxRequest())
+            return Json(new { success = true });
+
         return RedirectToProductDetails(product);
     }
 
@@ -146,7 +156,5 @@ public class ShoppingCartController : BaseController
 
         return RedirectToAction("Index", "Home"); // fallback naar Home pagina
     }
-
     
-
 }
