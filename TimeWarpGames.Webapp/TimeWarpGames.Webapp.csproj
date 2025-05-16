@@ -275,6 +275,7 @@
     <Content Include="Views\Roles\ManageUserRoles.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
