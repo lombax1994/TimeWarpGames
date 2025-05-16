@@ -15,5 +15,6 @@ namespace TimeWarpGames.Dal
         public DbSet<Game> Games { get; set; }
         public DbSet<Console> Consoles { get; set; }
         public DbSet<Accessory> Accessories { get; set; }
+        public DbSet<Review> Reviews { get; set; }
     }
 }

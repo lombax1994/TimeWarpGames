@@ -170,6 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Global.asax.cs">
@@ -280,7 +281,9 @@
     <Folder Include="Content\Images\AccessoryPics\" />
     <Folder Include="Content\Images\ConsolePics\" />
     <Folder Include="Content\Images\GamePics\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Views\CartCounter\" />
+    <Folder Include="Views\Reviews\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

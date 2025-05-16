@@ -1,4 +1,5 @@
-﻿@model TimeWarpGames.Entities.Game
+﻿@using TimeWarpGames.Entities
+@model TimeWarpGames.Entities.Game
 
 @if (TempData["Error"] != null)
 {
@@ -101,21 +102,88 @@
     </div>
 </div>
 
+<!-- Reviews sectie -->
+@if (ViewBag.Reviews != null && ((List<Review>)ViewBag.Reviews).Count > 0)
+{
+    <h3 class="mt-5 mb-4 text-light">Reviews</h3>
+    <div class="row g-4">
+        @foreach (var review in (List<Review>)ViewBag.Reviews)
+        {
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@review.UserName had dit te vertellen over dit product:</h5>
+                        <p class="card-text">@review.Comment</p>
+                        <p class="card-text"><small class="text-primary">Score: @review.Rating/5</small></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-light mt-5">Er zijn nog geen reviews voor dit product.</p>
+}
+
+<!-- Review invoer card (alleen zichtbaar voor ingelogde gebruikers) -->
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="card shadow-sm rounded-4 p-4 mt-5 mb-5" style="max-width: 600px;">
+        <h4 class="mb-4 text-light">Schrijf een review</h4>
+        <form method="post" action="@Url.Action("AddReview", "Games")">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="productId" value="@Model.ProductId" />
+
+            <div class="mb-3">
+                <label for="comment" class="form-label text-light">Review:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label text-light">Beoordeling:</label>
+                <select class="form-select" id="rating" name="rating" required>
+                    <option value="">Selecteer beoordeling</option>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Review toevoegen</button>
+        </form>
+    </div>
+}
+else
+{
+    <p class="text-muted mt-5">Log in om een review toe te voegen.</p>
+}
+
+
+
+
+
+
+
+
+
+
 <!-- Add to Cart Confirmation Modal -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content rounded-4">
-			<div class="modal-header">
-				<h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
-			</div>
-			<div class="modal-body text-center">
-				<a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
-			</div>
-			<div class="modal-footer justify-content-center">
-				<p>Klik buiten dit vak om verder te winkelen.</p>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
+            </div>
+            <div class="modal-body text-center">
+                <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p>Klik buiten dit vak om verder te winkelen.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

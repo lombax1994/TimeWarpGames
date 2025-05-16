@@ -1,4 +1,5 @@
-﻿@model TimeWarpGames.Entities.Accessory
+﻿@using TimeWarpGames.Entities
+@model TimeWarpGames.Entities.Accessory
 
 @if (TempData["Error"] != null)
 {
@@ -59,13 +60,13 @@
 
                     <!-- Voorraad -->
                     <div class="mb-3">
-	                    <strong>Voorraad:</strong> @ViewBag.ActueleVoorraad
+                        <strong>Voorraad:</strong> @ViewBag.ActueleVoorraad
                     </div>
                 </div>
 
                 <!-- Bottom Right Add to Cart Button -->
                 <!-- Alleen zichtbaar als de gebruiker is ingelogd -->
-                @if (User.Identity.IsAuthenticated && !User.IsInRole("StoreManager") && !User.IsInRole("SuperAdmin") )
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("StoreManager") && !User.IsInRole("SuperAdmin"))
                 {
                     <div class="d-flex justify-content-end">
                         <form id="addToCart" action="@Url.Action("Add", "ShoppingCart")" method="post">
@@ -91,21 +92,90 @@
     </div>
 </div>
 
+
+<!-- Reviews sectie -->
+<h3 class="mt-5 mb-4">Reviews</h3>
+
+@if (ViewBag.Reviews != null && ((List<Review>)ViewBag.Reviews).Count > 0)
+{
+    <div class="row g-4">
+        @foreach (var review in (List<Review>)ViewBag.Reviews)
+        {
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3 h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@review.UserName had dit te vertellen over dit product:</h5>
+                        <p class="card-text">@review.Comment</p>
+                        <p class="card-text"><small class="text-primary">Score: @review.Rating/5</small></p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted">Er zijn nog geen reviews voor dit product.</p>
+}
+
+<!-- Review toevoegen card -->
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="card shadow-sm rounded-4 p-4 mt-5 mb-5" style="max-width: 600px;">
+        <h4 class="mb-4">Schrijf een review</h4>
+        <form method="post" action="@Url.Action("AddReview", "Accessories")">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="productId" value="@Model.ProductId" />
+
+            <div class="mb-3">
+                <label for="comment" class="form-label">Review:</label>
+                <textarea class="form-control" id="comment" name="comment" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="rating" class="form-label">Beoordeling:</label>
+                <select class="form-select" id="rating" name="rating" required>
+                    <option value="">Selecteer beoordeling</option>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Review toevoegen</button>
+        </form>
+    </div>
+}
+else
+{
+    <p class="text-primary mt-4">Log in om een review toe te voegen.</p>
+}
+
+
+
+
+
+
+
+
+
+
 <!-- Add to Cart Confirmation Modal -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content rounded-4">
-			<div class="modal-header">
-				<h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
-			</div>
-			<div class="modal-body text-center">
-				<a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
-			</div>
-			<div class="modal-footer justify-content-center">
-				<p>Klik buiten dit vak om verder te winkelen.</p>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Toegevoegd aan winkelmandje</h5>
+            </div>
+            <div class="modal-body text-center">
+                <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-primary">Winkelmandje bekijken</a>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p>Klik buiten dit vak om verder te winkelen.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

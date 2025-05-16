@@ -78,6 +78,9 @@ namespace TimeWarpGames.Webapp.Controllers
 
                 ViewBag.ActueleVoorraad = availableStock;
 
+                var reviews = ReviewBll.ReadByProductId(game.ProductId);
+                ViewBag.Reviews = reviews;
+
                 return View(game);
             }
             catch (Exception ex)
@@ -172,6 +175,23 @@ namespace TimeWarpGames.Webapp.Controllers
                 ViewBag.Feedback = "Bijwerken van spel is niet gelukt.";
                 return View(existingGame);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public ActionResult AddReview(int productId, string comment, int rating)
+        {
+            string userName = User.Identity.Name;
+
+            bool success = ReviewBll.Create(userName, comment, rating, productId);
+
+            if (!success)
+            {
+                TempData["Error"] = "Er is een fout opgetreden bij het toevoegen van je review.";
+            }
+
+            return RedirectToAction("Details", new { id = productId });
         }
     }
 }
