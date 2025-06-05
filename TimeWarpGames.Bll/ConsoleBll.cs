@@ -33,8 +33,8 @@ namespace TimeWarpGames.Bll
 
             TimeWarpGames.Entities.Console console = new TimeWarpGames.Entities.Console(Name, IsBoxed, Image,
                 Description, Price, Stock, Brand, Model, ReleaseDate, State);
-            bool memberCreated = ConsoleDal.Create(console);
-            return memberCreated;
+            bool consoleCreated = ConsoleDal.Create(console);
+            return consoleCreated;
         }
 
         public static Console ReadOne(int id)
