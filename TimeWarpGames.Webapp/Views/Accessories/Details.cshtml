@@ -78,6 +78,10 @@
                         </form>
                     </div>
                 }
+                @if(!User.Identity.IsAuthenticated && !User.IsInRole("StoreManager") && !User.IsInRole("SuperAdmin"))
+                {
+	                <p class="text-primary">Log in om dit product aan je winkelmandje toe te voegen.</p>
+                }
             </div>
         </div>
     </div>
